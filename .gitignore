@@ -3,3 +3,13 @@
 *.lot
 *.lof
 *.toc
+knievel/Template/main-blx.bib
+knievel/Template/main.xdv
+knievel/Template/main.synctex.gz
+knievel/Template/main.run.xml
+knievel/Template/main.pdf
+knievel/Template/main.out
+knievel/Template/main.fls
+knievel/Template/main.fdb_latexmk
+knievel/Template/main.blg
+knievel/Template/main.bbl
