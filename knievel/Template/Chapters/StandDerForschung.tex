@@ -1,0 +1,41 @@
+\chapter{Stand der Forschung}
+
+\label{StandDerForschung}
+
+
+Die Fahrspurerkennung ist ein zentrales Thema für autonome Fahrzeuge und Fahrerassistenzsysteme. In den letzten Jahren haben sich die Ansätze von klassischen Bildverarbeitungsmethoden hin zu Deep-Learning-basierten Verfahren entwickelt. Die Leistungsfähigkeit dieser Methoden wird ma{\ss}geblich durch die verwendeten Datensätze und die Anpassungsfähigkeit an verschiedene Szenarien bestimmt.
+
+
+\section{Klassische Methoden}
+    Die Hough-Transformation ist eine bewährte Methode zur Erkennung von Fahrspuren, da sie geometrische Strukturen wie Linien in Bildern zuverlässig identifizieren kann. Sie wird genutzt, um Fahrbahnmarkierungen als Linien im Bild zu erkennen.
+
+    \subsection{Vorverarbeitung}
+        Das Bild wird meist in Graustufen umgewandelt, entrauscht (z.B. mit Medianfilter) und der Kontrast wird verbessert. Anschlie{\ss}end werden Kanten (z.B. mit Canny-Edge-Detection \cite{Canny}) extrahiert und ein relevanter Bildbereich (Region of Interest) ausgewählt.
+
+    \subsection{Hough-Transformation}
+        Die Hough-Transformation wurde von ihrem Erfinder Paul V.C. Hough 1962 als \textit{Method and Means for Recognizing Complex Patterns} patentiert \cite{HoughPatent}. Sie ist ein globales Verfahren zur Erkennung von parametrisierbaren geometrischen Figuren wie Geraden oder Kreisen in einem binären Gradientenbild, also einem Schwarz-Wei{\ss}-Bild nach einer Kantenerkennung.
+        Um Geraden zu erkennen, werden die Kantenpunkte in den Hough-Parameterraum (meist in der hesseschen Normalform durch Winkel und Abstand) abgebildet. Linien, die viele Kantenpunkte enthalten, erscheinen als lokale Maxima im Hough-Raum und werden als Linien ausgegeben.
+
+    \subsection{Linienerkennung}
+        Die detektierten Linien werden zurück ins Bild transformiert und als Fahrspuren markiert. 
+        
+        Optimierte Hardware-Implementierungen und hierarchische Ansätze ermöglichen eine schnelle Verarbeitung, die für Fahrerassistenzsysteme und autonome Fahrzeuge notwendig ist.
+        Erweiterungen wie die Deep Hough Transform oder die Nutzung von Parabeln im Hough-Raum erlauben die Erkennung auch von gekrümmten oder fragmentierten Fahrspuren.
+
+
+\section{Deep Learning}
+Moderne Ansätze nutzen Convolutional Neural Networks (CNNs), Attention-Mechanismen und spezielle Architekturen wie Feature Pyramid Networks oder Affinity Fields. Diese Methoden sind robuster gegenüber schwierigen Bedingungen (z. B. schlechte Sicht, verdeckte oder abgenutzte Markierungen) und erzielen auf Benchmark-Datensätzen oft State-of-the-Art-Ergebnisse.
+
+\section{Relevante Datensätze}
+
+    \subsection{TuSimple}
+    Standard-Benchmark für Fahrspurerkennung, häufig für Trainings- und Vergleichszwecke genutzt.
+
+    \subsection{CULane}
+    Umfassender Datensatz mit vielfältigen Szenarien, darunter Nacht, Regen, Schatten und stark befahrene Stra{\ss}en.
+
+    \subsection{BDD100K}
+    Enthält verschiedene Fahrbedingungen und ist für die Validierung der Generalisierbarkeit von Modellen relevant.
+   % BDD, CU-LANE, TUSimple, CurveLanes, LLAMAS, OpenLane, Caltech, AUDI
+% eigene Labels: Labelstudio, CVAT
+\section{Ansätze zur Konfidenzbewertung in neuronalen Netzen}
