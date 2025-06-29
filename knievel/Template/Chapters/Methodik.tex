@@ -3,20 +3,17 @@
 \label{Methodik}
 
 \section{Auswahl und Beschreibung des Datensatzes}
-Für die Fahrspurerkennung existieren zahlreiche öffentlich verfügbare Datensätze, die sich in Umfang, Sensorik, Annotationsgenauigkeit, Umgebungsbedingungen und Szenarienvielfalt unterscheiden. 
-Zu den bekanntesten Datensätzen zählen CULane \cite{CULanePaper}, TuSimple \cite{TuSimplePaper}, BDD100K \cite{bdd100k} und LLAMAS \cite{bdd100k}, die jeweils unterschiedliche Herausforderungen wie verschiedene Wetterbedingungen, Tageszeiten, Stra{\ss}enarten und Verkehrssituationen abdecken und so die Entwicklung robuster Algorithmen ermöglichen. 
-CULane ist besonders für seine gro{\ss}e Vielfalt an urbanen Szenen und schwierigen Bedingungen wie Nacht, Schatten und Baustellen bekannt, während TuSimple sich auf Autobahnszenarien mit klaren Fahrspuren konzentriert..
-Trotz der Vielzahl an Datensätzen bestehen weiterhin Herausforderungen hinsichtlich Standardisierung, Vergleichbarkeit und Abdeckung seltener oder besonders komplexer Szenarien.
-Hinzu kommt im vorliegenden Projekt die ungewöhliche Kameraperspektive seitlich montiert, mit Blick auf den Vorderreifen und die Fahrbahn wie in \ref{konzept} beschrieben.
-Es wurde sich für den Datensatz Berkeley Deep Drive (BDD100K) entschieden, da dieser nicht nur eine Vielzahl an Szenarien, sondern auch eine hohe Qualität an Annotationsen bietet. Das wichtigste Entscheidungskriterium war jedoch die Art und Weise wie die Fahrbahnmarkierungen annotiert waren. Da jeweils die Kanten der Spurmarkierung annotiert wurden, sollte dies die Ermittlung der gesuchten Zielgrö{\ss}e (Abstand zwischen den Innenkante der Fahrspurmarkierung und Au{\ss}enkante des Vorderreifens) präzisieren. 
-%Todo json und/oder Bild einfügen
-Andere betrachtete Datensätze gaben meist nur die mitte der Fahrbahnmarkierung als ein einziges Polynom oder in Form von B-Splines an.
 
+    Zu den bekanntesten Datensätzen für die Fahrspurerkennung zählen die in \ref{chapter_datasets} vorgestellten Datensätze CULane \cite{CULanePaper}, TuSimple \cite{tusimple_lane_detection} und BDD100K \cite{bdd100k}, die jeweils unterschiedliche Herausforderungen wie verschiedene Wetterbedingungen, Tageszeiten, Stra{\ss}enarten und Verkehrssituationen abdecken und so die Entwicklung robuster Algorithmen ermöglichen. 
+    
+    Die Besonderheiten des vorliegenden Projekts lagen zum einen in der  ungewöhlichen in \ref{konzept} beschrieben Kameraperspektive seitlich am Fahrzeug montiert mit Blick in Fahrtrichtung, zum anderen in der Beschaffenheit der Zielgrö{\ss}e, die nicht nur die Fahrbahnmarkierung selbst, sonderen deren innere Kante vom Reifen aus gesehen benötigt.
+    Es wurde sich für den Datensatz Berkeley Deep Drive (BDD100K) entschieden, da dieser nicht nur eine Vielzahl an Szenarien, sondern auch eine hohe Qualität an Annotationen bietet. Das wichtigste Entscheidungskriterium war jedoch die Art und Weise wie die Fahrbahnmarkierungen annotiert waren. Da jeweils die Kanten der Spurmarkierung annotiert wurden, sollte dies die Ermittlung der gesuchten Zielgrö{\ss}e (Abstand zwischen den Innenkante der Fahrspurmarkierung und Au{\ss}enkante des Vorderreifens) p
+    Andere betrachtete Datensätze gaben meist nur die Mitte der Fahrbahnmarkierung als ein einziges Polynom oder in Form von B-Splines an, sodass die Information über die innere Kante höchstens geschätzt werden konnte.
 
 % \section{Datenvorverarbeitung (z. B. Normalisierung, Augmentation)}
 \section{Auswahl und Beschreibung des neuronalen Netzes}
     Durch die Auswahl einer bereits bestehenden Architektur sollte der zeitliche Aufwand begrenzt werden, sodass ein voll funktionsfähiges System im gegeben Zeitraum der Abschlussarbeit bereitgestellt werden konnte.
-    Als Grundlage für die Entwicklung wurde sich für das TwinLiteNetPlus \cite{TwinLiteNet} entschieden, da es sich um ein robustes und effizientes Netzwerk handelt, das bereits für das Training mit dem BDD100K-Datensatz ausgelegt war.
+    Als Grundlage für die Entwicklung wurde sich für das TwinLiteNetPlus \cite{TwinLiteNet} entschieden, da es sich um ein robustes und effizientes Netzwerk handelt, das bereits für das Training mit dem gewählten BDD100K-Datensatz ausgelegt war.
     In erstern Tests mit eigenen Aufnahmen konnten bereits vielversprechende Ergebnisse in Bezug auf die Erkennung der Fahrbahnmarkierungen erzielt werden, sodass eine geeignete Code-Basis gefunden war. %Todo Bild einfügen
     % Todo was wurde noch ausprobiert?
     %Yolop
@@ -24,7 +21,7 @@ Andere betrachtete Datensätze gaben meist nur die mitte der Fahrbahnmarkierung 
     \subsection{Aufbau des TwinLiteNetPlus}
         Das TwinLiteNet+ ist ein effizientes und leichtgewichtiges Modell, das für die gleichzeitige Segmentierung von befahrbaren Bereichen und Fahrspuren in autonomen Fahrszenarien entwickelt wurde. Es umfasst mehrere Schlüsselkomponenten, darunter Encoder- und Decoder-Blöcke, die speziell für die Segmentierungsaufgaben konfiguriert sind \cite{TwinLiteNet}. 
         %Todo bild einfügen + genauer beschreiben
-        Darüber hinaus werden Focal Loss und Tversky Loss als Verlustfunktionen während des Trainings verwendet, um die Leistung auf herausfordernden Proben zu verbessern. 
+        % Darüber hinaus werden Focal Loss und Tversky Loss als Verlustfunktionen während des Trainings verwendet, um die Leistung auf herausfordernden Proben zu verbessern. 
         Das TwinLiteNetPlus stellt vier vortrainierte Modelle zur Verfügung, die von "nano" bis "large" reichen und sich in der Balance zwischen Genaugkeit und Geschwindigkeit unterscheiden. %todo grafik gflops
         Für das vorliegende Projekt wurde ein Modell mit der Bezeichnung "large" verwendet, da zunächst die nicht zeitkritische offline Nachverarbeitung im Vordergrund stand.
 
@@ -32,8 +29,8 @@ Andere betrachtete Datensätze gaben meist nur die mitte der Fahrbahnmarkierung 
 
     \subsection{Anpassungen des TwinLiteNetPlus}
     Um die Anforderungen des Projekts zu erfüllen, wurden folgende Anpassungen im TwinLiteNetPlus vorgenommen:
-    
-    Die Erkennung der befahrbaren bereiche wurde deaktiviert, da diese nicht für die Berechnung der Zielgrö{\ss}e relevant war.
+    %Todo: Anforderungen am Anfang beschreiben und hier referenzieren
+    Die Erkennung der befahrbaren Bereiche wurde deaktiviert, da diese nicht für die Berechnung der Zielgrö{\ss}e relevant war.
     Stattdessen wurden eigene Klassen für die Farbe (wei{\ss}/gelb) und die Art der Fahrbahnmarkierung (durchgezogen/gestrichelt) hinzugefügt.
 
     %Todo nachverarbeitung
