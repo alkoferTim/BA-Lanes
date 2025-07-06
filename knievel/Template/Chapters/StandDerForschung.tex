@@ -13,8 +13,8 @@ Die Fahrspurerkennung ist ein zentrales Thema für autonome Fahrzeuge und Fahrer
         Das Bild wird meist in Graustufen umgewandelt, entrauscht (z.B. mit Medianfilter) und der Kontrast wird verbessert. Anschlie{\ss}end werden Kanten (z.B. mit Canny-Edge-Detection \cite{Canny}) extrahiert und ein relevanter Bildbereich (Region of Interest) ausgewählt.
 
     \subsection{Hough-Transformation}
-        Die Hough-Transformation wurde von ihrem Erfinder Paul V.C. Hough 1962 als \textit{Method and Means for Recognizing Complex Patterns} patentiert \cite{HoughPatent}. Sie ist ein globales Verfahren zur Erkennung von parametrisierbaren geometrischen Figuren wie Geraden oder Kreisen in einem binären Gradientenbild, also einem Schwarz-Wei{\ss}-Bild nach einer Kantenerkennung.
-        Um Geraden zu erkennen, werden die Kantenpunkte in den Hough-Parameterraum (meist in der hesseschen Normalform durch Winkel und Abstand) abgebildet. Linien, die viele Kantenpunkte enthalten, erscheinen als lokale Maxima im Hough-Raum und werden als Linien ausgegeben.
+        Die Hough-Transformation wurde von ihrem Erfinder Paul V.C. Hough 1962 als \textit{Method and Means for Recognizing Complex Patterns} patentiert \cite{HoughPatent}. Sie ist ein globales Verfahren zur Erkennung von parametrisierbaren, geometrischen Figuren wie Geraden oder Kreisen in einem binären Gradientenbild, also einem Schwarz-Wei{\ss}-Bild nach einer Kantenerkennung.
+        Um Geraden zu erkennen, werden die Kantenpunkte in den Hough-Parameterraum (meist in der Hesseschen Normalform durch Winkel und Abstand) abgebildet. Linien, die viele Kantenpunkte enthalten, erscheinen als lokale Maxima im Hough-Raum und werden als Linien ausgegeben.
 
     \subsection{Linienerkennung}
         Die detektierten Linien werden zurück ins Bild transformiert und als Fahrspuren markiert. 
@@ -38,7 +38,7 @@ Die Fahrspurerkennung ist ein zentrales Thema für autonome Fahrzeuge und Fahrer
     %Todo Bilder+Json zeigen
 
     \subsection{CULane}
-    Da zuvor erschienene Datensätze zu klein und/oder zu einfach waren, wurde im Rahmen des Papers "Spatial As Deep: Spatial CNN for Traffic Scene Understanding" der neue Datensatz CULane vorgestellt \cite{CULanePaper}.
+    Da zuvor erschienene Datensätze zu klein und/oder zu einfach waren, wurde im Rahmen des Papers \enquote{Spatial As Deep: Spatial CNN for Traffic Scene Understanding} der neue Datensatz CULane vorgestellt \cite{CULanePaper}.
     Er enthält 55 Stunden Videos und etwa 130.000 annotierte Einzelbilder aus sehr vielfältigen Szenarien, darunter Nacht, Regen, Schatten und stark befahrene Stra{\ss}en.
     Viele der Fahrspurmarkierungen sind teilweise oder ganz verdeckt, was eine gro{\ss}e Herausforderung für Algorithmen darstellt.
     CULane gilt daher als einer der anspruchsvollsten Datensätze für Fahrspurerkennung und wird häufig für Benchmarks herangezogen.
