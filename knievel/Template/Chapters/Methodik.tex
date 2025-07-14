@@ -1,7 +1,7 @@
 \chapter{Methodik} 
 
 \label{Methodik}
-
+%Todo Kalibrierung
 \section{Auswahl und Beschreibung des Datensatzes}
 
     Zu den bekanntesten Datensätzen für die Fahrspurerkennung zählen die in Kapitel \ref{chapter_datasets} vorgestellten Datensätze CULane \cite{CULanePaper}, TuSimple \cite{tusimple_lane_detection} und BDD100K \cite{bdd100k}, die jeweils unterschiedliche Herausforderungen wie verschiedene Wetterbedingungen, Tageszeiten, Stra{\ss}enarten und Verkehrssituationen abdecken und so die Entwicklung robuster Algorithmen ermöglichen. 
@@ -26,14 +26,84 @@
         Das TwinLiteNetPlus stellt vier vortrainierte Modelle zur Verfügung, die von "nano" bis "large" reichen und sich in der Balance zwischen Genaugkeit und Geschwindigkeit unterscheiden. %todo grafik gflops
         Für das vorliegende Projekt wurde ein Modell mit der Bezeichnung "large" verwendet, da zunächst die nicht zeitkritische offline Nachverarbeitung im Vordergrund stand.
 
-    \subsection{Trainingsstrategie (Loss-Funktion, Optimierer, Hyperparameter)}
+    % \subsection{Trainingsstrategie (Loss-Funktion, Optimierer, Hyperparameter)}
 
     \subsection{Anpassungen des TwinLiteNetPlus}
+    %Todo versionnummern hochziehen --> Implementierung streichen
     Um die Anforderungen des Projekts zu erfüllen, wurden folgende Anpassungen im TwinLiteNetPlus vorgenommen:
     %Todo: Anforderungen am Anfang beschreiben und hier referenzieren
     Die Erkennung der befahrbaren Bereiche wurde deaktiviert, da diese nicht für die Berechnung der Zielgrö{\ss}e relevant war.
     Stattdessen wurden eigene Klassen für die Farbe (wei{\ss}/gelb) und die Art der Fahrbahnmarkierung (durchgezogen/gestrichelt) hinzugefügt.
 
     %Todo nachverarbeitung
-\section{Evaluationsmetriken (z. B. Accuracy, IoU, Precision/Recall)} % +m Darstellung Fehler als Violin-Plots
+\section{Evaluationsmetriken} % +m Darstellung Fehler als Violin-Plots
+    Um die Detektion des TwinLiteNetPlus zu evaluieren, wurden die folgenden Metriken verwendet:
+    
+    \subsection{Intersection over Union (IoU) / Jaccard-Index}
+        Der vom Schweizer Botaniker Paul Jaccard 1902 entwickelte Jaccrad-Index, auch bekannt als IoU, ist eine Ma{\ss}zahl zur Bewertung der Übereinstimmung zwischen zwei Mengen A und B \cite{jaccard1902}.
+        \[
+        J(A, B) = \frac{|A \cap B|}{|A \cup B|}
+        \]
+        Im Kontext der Fahrbahnmarkierungserkennung wird der IoU verwendet, um die Übereinstimmung zwischen der erkannten Fahrbahnmarkierung und dem gelabelten Datensatz zu bestimmen. 
+        Dabei wird die Schnittmenge der erkannten und gelabelten Fahrbahnmarkierung durch die Vereinigung der beiden Mengen geteilt.
+
+    \subsection{Accuracy}
+    Die Accuracy ist eine grundlegende Metrik zur Bewertung der Genauigkeit der Klassenzuordnung, wobei die Anzahl korrekt zugewiesener Pixel (True Positive und True Negative), durch die Gesamtzahl der Pixel eines Bildes geteilt wird.
+    \[
+    Pixel Accuracy = \frac{TP+TN}{TP+FP+TN+FN}
+    \]
+    
+    Da Fahrbahnmarkierungen klassischer weise einen geringen Anteil des Gesamtbildes einnehmen, führt diese Metrik zu einer übermä{\ss}ig hohen Genauigkeit durch sehr viele korrekt als Hintergrund erkannte Pixel. Um dieses Ungleichgewicht der Klassen Hintergrund und Fahrbahnmarkierung auszugleichen, wurde die mit der Veröffentlichung des Yolop Modells vorgestellte Line Accuracy verwendet \cite{wang2023you}:
+
+    \[
+    Line Accuracy = \frac{Sensitivity + Specificity}{2}
+    \]
+    Dabei wird die Sensitivity (Empfindlichkeit) und die Specificity (Spezifität) wie folgt berechnet:
+
+    \[
+    Sensitivity = \frac{TP}{TP+FN}
+    \]
+    \[
+    Specificity = \frac{TN}{TN+FP}
+    \]
+
+    \subsection{Absoluter Fehler}
+        Während die vorangegangen Metriken die Genauigkeit der Fahrbahnmarkierungserkennung auf Bildebene (in Pixeln) beurteilten, wurde zusätzlich ein Vergleich zu den internen BUS-Signalen der eigenen Audi Fahrzeuge durchgeführt. Dabei wurde der absolute Fehler der gesuchten Zielgrö{\ss}e (Abstand zwischen Radau{\ss}enkante und Spurinnenkante) in Metern ermittelt.
+
+        Eine Verteilung dieses absoluten Fehlers wurde pro Video als Violin-Plot dargestellt, um einen schnellen Überblick über die Qualität der Ergebnisse zu erhalten. %Todo Bild einfügen
+
+
+
 \section{Nachverarbeitung} % Segmente -> Polynome -> Filter -> Abstand berechnen
+Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e zu berechnen, wurde die im folgenden beschriebene Nachverarbeitung implementiert. 
+
+\subsection{zusammenhängende Segmente}
+    Zunächst sollte aus der resultierenden Segmentierungsmaske eine Liste von zusammenhängenden Segmenten mithilfe der Funktion \textit{label()} der Bibliothek scipy ermittelt werden. Au{\ss}erdem wurde ein threshold implementiert, der nur Segmente mit der angegeben Mindestanzahl an Pixeln in die Liste der Segmente aufnimmt. %Todo: Code in den Anhang? Segment-Berwertung via heatmap erläutern
+    \lstinputlisting[language=Python, caption=Python example]{code/extract_lane_segments.py}
+
+\subsection{Polynom-Approximation}
+    Im Anschluss wurde jedes dieser zusammenhängenden Segmente durch ein Polynom dritten Grades mit Hilfe der Funktion \textit{polyfit()} der Bibliothek numpy approximiert, um später die gesuchte Zielgrö{\ss}e, also den Abstand zwischen Reifenau{\ss}enkante und Innenkante Fahrbahnmarkierung auf Höhe des Rads bestimmen zu können.
+    \lstinputlisting[language=Python, caption=Python example]{code/fit_polynomial_to_segments.py} %Todo Code in den Anhang?
+    Au{\ss}erdem wurden Plausibilitäts-Prüfungen dieser Polynome durchgeführt, um Fehldetektionen zu reduzieren. So wurden unter anderem Polynome aussortiert, deren Extrema im Bereich der Bildkoordinaten lagen. %Todo Beispielbilder für alle Schritte
+
+\subsection{Abstandsberechnung}
+    Um die gesuchte Zielgrö{\ss}e zu ermitteln, wurde für jedes Polynom der kürzeste Abstand zum kalibrierten Radkantenpunkt berechnet. Dazu wurden Kandidatenpunkte und der Radkantenpunkt mit Hilfe der kalibrierten Homographie-Matrix in Weltkoordinaten transformiert, um daraus den echten Abstand in Metern zu berechnen. Zunächst wurde vereinfachend lediglich der Abstand zur dichtesten Fahrbahnmarkierungen als Messgrö{\ss}e ausgegeben.
+    %Todo beschreibe vorgehen: Kalibrierung/Aufnahme Messung/ Berechnung
+
+
+%Filterung in Kapitel Segmente und Polynome oder eigenes kapitel?
+\section{Auswahl und beschreibung der Konfidenzschätzung}
+    Zur Bewertung der Genaugkeit der Abstandsberechnung wurden mehrere Ansätze kombiniert, um eine möglichst genaue Schätzung abgeben zu können. Dazu sollte die Detektion des neuronalen Netzes TwinLiteNetPlus mit Hilfe erklärbarer Künstlicher Intelligenz (XAI) Methoden analysiert werden.
+    Auf der nächsten Ebene sollte der aus der Nachverarbeitung resultierende Abstandswert mit Hilfe von Konfidenzschätzungen bewertet werden.
+    
+    \subsection{Detektionsbewertung mittels ScoreCAM-Heatmap}
+        Das in Kapitel \ref{scoreCam_beschreibung} beschriebene Verfahren Score-CAM eignet sich besonders gut für Bild-Segmentierung, weil es im Vergleich zu anderen CAM-Methoden robustere, schärfere und oft präzisere Aktivierungskarten liefert. Der Hauptvorteil liegt darin, dass Score-CAM keine Gradienten benötigt, sondern die tatsächlichen Modellantworten auf maskierte Bildbereiche nutzt, was zu stabileren und besser lokalisierten Segmentierungen führt.
+        Der höhere Rechenaufwand von ScoreCAM war zunächst zu vernachlässigen, da die Auswertung im Nachgang einer Messung und damit nicht in Echtzeit erfolgte.
+        Für den ersten Teil der Konfidenzschätzungen wurde für jedes zusammenhängende Segment der durchschnittliche Wert der ScoreCAM-Heatmap berechnet.
+        %Todo zeige Heatmap-Screenshot+Konfidenz wert
+    
+    \subsection{Abstandsbewertung}
+        Der Abstandsschätzung liegt eine vorangegangene Kalibrierung mittels Schachbrett-Muster zu Grunde. %Todo referenz Kalibrierungskapitel
+        Um die Konfidenz des berechneten Abstandswerts weiter zu präzieren, sollte die Lage eines Segments zu dem Bereich in dem das Schachbrettmuster für die Kalibrierung lag einbezogen werden. 
+        Dadurch sollten die durch die Polynom-Approximation entstehenden Fehler gewichtet werden. Erkannte Segmente, die besonders nah oder im Bereich des Schachbrettmusters lagen, lie{\ss}en einen geringen Fehler des Polynoms im betrachteten Bereich vermuten und sollten daher eine hohe Konfidenz erhalten. %Todo Beispielbilder
+        
