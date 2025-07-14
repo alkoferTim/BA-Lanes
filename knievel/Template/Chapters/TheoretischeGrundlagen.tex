@@ -23,10 +23,25 @@
     Erklärbare Künstliche Intelligenz (XAI) bezeichnet Methoden und Ansätze, die darauf abzielen, die Entscheidungsprozesse von KI-Systemen für Menschen nachvollziehbar und transparent zu machen. Ziel ist es, die „Black-Box“-Natur vieler moderner KI-Modelle, insbesondere von Deep Learning und Ensemble-Methoden, aufzubrechen und verständliche Erklärungen für deren Vorhersagen und Entscheidungen zu liefern \cite{Arrieta2019Explainable}.
 
     \subsection{Motivation und Ziele von XAI}
-    Die Notwendigkeit von XAI ergibt sich aus dem Einsatz von KI in kritischen Bereichen wie Medizin, Finanzen oder autonomes Fahren, wo Vertrauen, Sicherheit und Nachvollziehbarkeit essenziell sind. Fehlende Erklärbarkeit kann zu ethischen, rechtlichen und sicherheitsrelevanten Problemen führen und das Vertrauen der Nutzer beeinträchtigen \cite{molnar2025}.
+        Die Notwendigkeit von XAI ergibt sich aus dem Einsatz von KI in kritischen Bereichen wie Medizin, Finanzen oder autonomes Fahren, wo Vertrauen, Sicherheit und Nachvollziehbarkeit essenziell sind. Fehlende Erklärbarkeit kann zu ethischen, rechtlichen und sicherheitsrelevanten Problemen führen und das Vertrauen der Nutzer beeinträchtigen \cite{molnar2025}.
 
     \subsection{Taxonomie}
-    XAI-Methoden können in zwei Hauptkategorien eingeteilt werden: Interpretability by design setzt von vorn herein auf erklärbare Modelle wie logistische Regression während Post-hoc interpretability Methoden auf bereits trainierte Modelle angewendet werden \cite{molnar2025}. Post-hoc-Interpretationsmethoden können modellunabhängig sein, wie z. B. die Permutation Feature Importance, oder modellspezifisch, wie z. B. die Analyse der von einem neuronalen Netz gelernten Merkmale.
+        XAI-Methoden können in zwei Hauptkategorien eingeteilt werden: Interpretability by design setzt von vorn herein auf erklärbare Modelle wie logistische Regression während Post-hoc interpretability Methoden auf bereits trainierte Modelle angewendet werden \cite{molnar2025}. Post-hoc-Interpretationsmethoden können modellunabhängig sein, wie z. B. die Permutation Feature Importance, oder modellspezifisch, wie z. B. die Analyse der von einem neuronalen Netz gelernten Merkmale.
 
-    \subsection{Relevante Methoden (z. B. Grad-CAM, LIME, SHAP)}
+    \subsection{Relevante Methoden} %Todo: weitere Methoden? Shap /Lime?
+        \subsubsection{Gradient-weighted Class Activation Mapping (Grad-CAM)}
+            Grad-CAM (Gradient-weighted Class Activation Mapping) ist eine weit verbreitete Methode der erklärbaren künstlichen Intelligenz (XAI), die es ermöglicht, die Entscheidungsfindung von Convolutional Neural Networks (CNNs) visuell nachzuvollziehen \cite{Selvaraju_2019}.
+            Grad-CAM nutzt die Gradienten der Zielklasse, die durch das letzte Faltungs-Feature-Map fließen, um eine gewichtete Aktivierungskarte (Heatmap) zu erzeugen. Diese Heatmap hebt die Bildbereiche hervor, die für die Vorhersage des Modells am wichtigsten waren. 
+            Grad-CAM ist besonders nützlich, da es keine Änderungen an der Netzwerkarchitektur erfordert und für verschiedene Bildklassifikations- und Erkennungsaufgaben eingesetzt werden kann. 
+            In der Praxis hat sich Grad-CAM als effizient und zuverlässig erwiesen, um relevante Bildregionen zu identifizieren, die zu einer bestimmten Modellentscheidung beitragen, und wird in vielen medizinischen und industriellen Anwendungen zur Steigerung der Transparenz und des Vertrauens in KI-Systeme eingesetzt.
+        
+        \subsubsection{Score Class Activation Mapping (Score-CAM)}
+        \label{scoreCam_beschreibung}
+            ScoreCAM ist eine Weiterentwicklung der CAM-basierten XAI-Methoden, die im Gegensatz zu Grad-CAM keine Gradientenberechnung benötigt. 
+            Stattdessen werden die Feature-Maps der letzten Faltungsschicht einzeln auf das Eingabebild angewendet, und für jede Map wird die Modellvorhersage (Score) berechnet \cite{wang2020scorecamscoreweightedvisualexplanations}. 
+            Diese Scores dienen als Gewichtung für die jeweiligen Aktivierungskarten, die anschließend zu einer Gesamt-Heatmap kombiniert werden. 
+            ScoreCAM bietet dadurch eine stabilere und oft interpretierbarere Visualisierung, da sie nicht von den potenziell verrauschten Gradienten abhängt. 
+            Allerdings ist ScoreCAM rechenintensiver als Grad-CAM, da für jede Feature-Map eine zusätzliche Vorwärtsauswertung des Modells erforderlich ist. 
+            ScoreCAM wird insbesondere dann bevorzugt, wenn eine höhere Robustheit und Genauigkeit der Erklärungen gewünscht ist, beispielsweise in sensiblen Anwendungsbereichen wie der medizinischen Bildanalyse.
+        
     \subsection{Konfidenzschätzung und Unsicherheitsquantifizierung}
