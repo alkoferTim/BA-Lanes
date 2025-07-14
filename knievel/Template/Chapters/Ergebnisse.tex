@@ -3,6 +3,43 @@
 \label{Ergebnisse}
 
 \section{Trainingsergebnisse} %F1, IoU etc
+    %Todo eigenes Modell
+\section{Messungsauswertung}
+    Für die Messungsauswertung wurde ein Skript erstellt, das für jede Einzelmessung die Ergebnisse der Detektion und falls vorhanden auch die Ground-Truth Siganle in einem Plot darstellt.
+    Au{\ss}erdem werden die jeweils zum Zeitstempel passenden Segmentierungen und Polynome vom linken und rechten Video visualiert.
+    Um einen schnellen Überblick der Ergebnisse zu ermöglichen, wurde dazu noch der absolute Fehler für beide Seiten in Form eines Violin-Plots dargestellt.
+    Dieser zeigt die Verteilung der absoluten Fehler für beide Seiten (siehe Abb. \ref{fig:Evaluation16}).
+
+    \begin{figure}[H] % Use the 'H' specifier to place it exactly here
+    \centering
+    \includegraphics[width=\textwidth]{Figures/Auswertung_16_ok.png}
+    \caption[Screenshot Auswertung Trigger 16]{Auswertung Messung 2 Trigger 16}
+    \label{fig:Evaluation16}
+    \end{figure}
+
+    \subsection{identifizierte Probleme}
+        In einer ersten Messung wurde die Kalibrierung der Kamera in einer anderen Auflösung als alle brauchbaren Messungen durchgeführt.
+        Während der Aufnahme der Messung wurden die Kamera-Einstellungen aufgrund von Performance-Gründen mehrfach geändert.
+        Augrund dieser Änderungen, wäre eine Auswertung nur mit erhöhtem Aufwand möglich gewesen, weshalb darauf verzichtet wurde.
+        Die aufgenommenen Daten konnten jedoch trotzdem für das Training eines eigenen Modells genutzt werden und wurden daher gelabelt.
+
+        In einer zweiten Messung funktionierte die Detektion und Abstandsberechnung bereits gut. Wie in Abblidung \ref{fig:Evaluation16} zu sehen ist.
+        Die Verteilung des absoluten Fehlers hat auf beiden Seiten einen hohen und schmalen Peak um die 0 m mit einer Streuung von etwa +/- 0,05m, abgesehen von einem kleineren Peak bei etwa 1,5m auf der rechten Seite, der durch Fehldetektionen während der Autobahnausfahrt zu erklären ist.
+
+        Abgesehen davon gab es wie in Abb. \ref{fig:Evaluation14} dargestellt häufig Fehldetektionen in Baustellenabschnitten der Autobahn.
+        Diese Fehldetektionen sind durch die Erkennung der ungültigen wei{\ss}en Linie zu erklären. 
+        In der ersten Auswertung wurde das vortrainierte Modell des TwinLiteNetPlus verwendet, welches keine Linienklassen (z.B. gelb/wei{\ss}) unterschied, weshalb die ungültige wei{\ss}e Linie sich häufig als dichtere Linie durchgesetzt hatte.
+        Auf beiden Seiten springt daher das Signal zwischen der wei{\ss}en und der gelben Linie, was im Violin-Plot durch kleinere Nebenpeaks zu erkennen ist.
+
+        \begin{figure}[H] % Use the 'H' specifier to place it exactly here
+        \centering
+        \includegraphics[width=\textwidth]{Figures/Auswertung_14_falsche_Linie.png}
+        \caption[Screenshot Auswertung Trigger 14]{Auswertung Messung 2 Trigger 11}
+        \label{fig:Evaluation14}
+        \end{figure}
+
+        Ein weiteres technisches Problem war die falsche Angabe der Kamera-Metadaten (z.B. Bildrate) in wenigen Videos, was die Synchonisation zu den Messdaten hinterher erschwerte oder unmöglich machte.
+
 
 \section{Visualisierung und Analyse der XAI-Ergebnisse}
 \section{Konfidenzwerte im Vergleich zu Ground Truth}
