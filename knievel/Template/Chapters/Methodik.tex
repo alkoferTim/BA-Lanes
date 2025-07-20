@@ -98,12 +98,34 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e zu berechnen, wurde die im 
     
     \subsection{Detektionsbewertung mittels ScoreCAM-Heatmap}
         Das in Kapitel \ref{scoreCam_beschreibung} beschriebene Verfahren Score-CAM eignet sich besonders gut für Bild-Segmentierung, weil es im Vergleich zu anderen CAM-Methoden robustere, schärfere und oft präzisere Aktivierungskarten liefert. Der Hauptvorteil liegt darin, dass Score-CAM keine Gradienten benötigt, sondern die tatsächlichen Modellantworten auf maskierte Bildbereiche nutzt, was zu stabileren und besser lokalisierten Segmentierungen führt.
+        In Anhang \ref{AppendixB} sind beispielhaft für ein Einzelbild der Messungen sowohl die generierte ScoreCAM, als auch die GradCam Heatmap dargestellt, um die Unterschiede zwischen den beiden Methoden zu verdeutlichen.
+
         Der höhere Rechenaufwand von ScoreCAM war zunächst zu vernachlässigen, da die Auswertung im Nachgang einer Messung und damit nicht in Echtzeit erfolgte.
-        Für den ersten Teil der Konfidenzschätzungen wurde für jedes zusammenhängende Segment der durchschnittliche Wert der ScoreCAM-Heatmap berechnet.
-        %Todo zeige Heatmap-Screenshot+Konfidenz wert
+        Für den ersten Teil der Konfidenzschätzungen wurde für jedes zusammenhängende Segment der Mittelwert der ScoreCAM-Heatmap berechnet.
+        %Todo: Formel &/ Code
     
     \subsection{Abstandsbewertung}
         Der Abstandsschätzung liegt eine vorangegangene Kalibrierung mittels Schachbrett-Muster zu Grunde. %Todo referenz Kalibrierungskapitel
-        Um die Konfidenz des berechneten Abstandswerts weiter zu präzieren, sollte die Lage eines Segments zu dem Bereich in dem das Schachbrettmuster für die Kalibrierung lag einbezogen werden. 
-        Dadurch sollten die durch die Polynom-Approximation entstehenden Fehler gewichtet werden. Erkannte Segmente, die besonders nah oder im Bereich des Schachbrettmusters lagen, lie{\ss}en einen geringen Fehler des Polynoms im betrachteten Bereich vermuten und sollten daher eine hohe Konfidenz erhalten. %Todo Beispielbilder
+        Um die Konfidenz des berechneten Abstandswerts weiter zu präzisieren, sollte die Lage eines Segments zu dem Bereich in dem das Schachbrettmuster für die Kalibrierung lag einbezogen werden. 
+        Dadurch sollten die durch die Polynom-Approximation entstehenden Fehler berücksichtigt werden. Erkannte Segmente, die besonders nah oder im Bereich des Schachbrettmusters lagen, lie{\ss}en einen geringen Fehler des Polynoms im betrachteten Bereich vermuten und sollten daher eine hohe Konfidenz erhalten. %Todo Beispielbilder
+        Die durchschnittliche Entfernung eines Segments zum Schachbrettmuster wurde als Konfidenzschätzung verwendet. %Todo
+        %Todo Formel chessboard_confidence
+    
+    \subsection{Historienbetrachtung}
+        Um potenziell unplausible Sprünge in der erkannten Detektion zu identifizieren, wurde ergänzend eine Historienanalyse implementiert. Dabei wurden für den Zeitraum der letzten Sekunde der Mittelwert $\mu$ sowie die Standardabweichung $\sigma$ der erkannten Abstände berechnet. Auf Basis dieser Kenngrößen wurde ein Vertrauenswert für den aktuellen Messwert $x$ bestimmt, welcher angibt, inwieweit dieser mit der bisherigen Verteilung übereinstimmt. Die Berechnung erfolgte unter Verwendung der gaußschen Wahrscheinlichkeitsdichtefunktion:
+        \[
+        \text{history\_confidence} = e^{-\frac{(x - \mu)^2}{2\sigma^2}}
+        \]
+
+        Ein hoher Wert der resultierenden $history_confidence$ deutet auf eine hohe Konsistenz mit der bisherigen Messhistorie hin, während ein niedriger Wert auf eine potenzielle Anomalie oder fehlerhafte Detektion schließen lässt. 
+        Diese Bewertung dient der Erhöhung der Robustheit des Systems gegenüber Ausreißern und unerwarteten Messwertänderungen, die durch Fehldetektionen verursacht werden könnten.
+        Beispielweise eine Detektion der Spurmarkierung der nebenliegenden Fahrspur sollte durch die Historienanalyse als fehlerhaft eingeschätzt werden.
+    
+    \subsection{Verrechnung}
+        Letztendlich sollte die Konfidenzschätzung aus den drei genannten Komponenten verrechnet werden, um anhand einer Gesamtkonfidenz eine Entscheidung über die Glaubwürdigkeit der erkannten Zielgröße zu treffen. Für die KPI-Berechnung von Assistenzsystemen wie der Spurmittenführung sollten entprechende Toolketten so anhand der Konfidenzschätzung und anderen Plausibilitätsprüfungen verwendbare Manöver bestimmen. 
+        Dazu wurden die drei Komponenten wie dargestllt gleich gewichtet verrechnet:
+        \begin{align*}
+        \texttt{final\_confidence} = \\ \frac{\texttt{score\_cam\_confidence} + \texttt{history\_confidence} + \texttt{chessboard\_confidence}}{3}
+        \end{align*}
+        %Todo: begründung Gewichtung siehe Ergebnisse
         
