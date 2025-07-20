@@ -17,16 +17,16 @@
     \label{fig:Evaluation16}
     \end{figure}
 
-    \subsection{identifizierte Probleme}
+    \subsection{Identifizierte Probleme}
         In einer ersten Messung wurde die Kalibrierung der Kamera in einer anderen Auflösung als alle brauchbaren Messungen durchgeführt.
         Während der Aufnahme der Messung wurden die Kamera-Einstellungen aufgrund von Performance-Gründen mehrfach geändert.
         Augrund dieser Änderungen, wäre eine Auswertung nur mit erhöhtem Aufwand möglich gewesen, weshalb darauf verzichtet wurde.
         Die aufgenommenen Daten konnten jedoch trotzdem für das Training eines eigenen Modells genutzt werden und wurden daher gelabelt.
 
-        In einer zweiten Messung funktionierte die Detektion und Abstandsberechnung bereits gut. Wie in Abblidung \ref{fig:Evaluation16} zu sehen ist.
+        In einer zweiten Messung funktionierte die Detektion und Abstandsberechnung bereits gut. Wie in Abbildung \ref{fig:Evaluation16} zu sehen ist.
         Die Verteilung des absoluten Fehlers hat auf beiden Seiten einen hohen und schmalen Peak um die 0 m mit einer Streuung von etwa +/- 0,05m, abgesehen von einem kleineren Peak bei etwa 1,5m auf der rechten Seite, der durch Fehldetektionen während der Autobahnausfahrt zu erklären ist.
 
-        Abgesehen davon gab es wie in Abb. \ref{fig:Evaluation14} dargestellt häufig Fehldetektionen in Baustellenabschnitten der Autobahn.
+        Abgesehen davon gab es wie in Abb. \ref{fig:Evaluation14} dargestellt vermehrt Fehldetektionen in Baustellenabschnitten der Autobahn.
         Diese Fehldetektionen sind durch die Erkennung der ungültigen wei{\ss}en Linie zu erklären. 
         In der ersten Auswertung wurde das vortrainierte Modell des TwinLiteNetPlus verwendet, welches keine Linienklassen (z.B. gelb/wei{\ss}) unterschied, weshalb die ungültige wei{\ss}e Linie sich häufig als dichtere Linie durchgesetzt hatte.
         Auf beiden Seiten springt daher das Signal zwischen der wei{\ss}en und der gelben Linie, was im Violin-Plot durch kleinere Nebenpeaks zu erkennen ist.

@@ -77,22 +77,22 @@
 \section{Nachverarbeitung} % Segmente -> Polynome -> Filter -> Abstand berechnen
 Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e zu berechnen, wurde die im folgenden beschriebene Nachverarbeitung implementiert. 
 
-\subsection{zusammenhängende Segmente}
-    Zunächst sollte aus der resultierenden Segmentierungsmaske eine Liste von zusammenhängenden Segmenten mithilfe der Funktion \textit{label()} der Bibliothek scipy ermittelt werden. Au{\ss}erdem wurde ein threshold implementiert, der nur Segmente mit der angegeben Mindestanzahl an Pixeln in die Liste der Segmente aufnimmt. %Todo: Code in den Anhang? Segment-Berwertung via heatmap erläutern
-    \lstinputlisting[language=Python, caption=Python example]{code/extract_lane_segments.py}
+\subsection{Zusammenhängende Segmente}
+    Zunächst sollte aus der resultierenden Segmentierungsmaske eine Liste von zusammenhängenden Segmenten der Klasse Lane mithilfe der Funktion \textit{label()} der Bibliothek scipy ermittelt werden. Au{\ss}erdem wurde ein threshold implementiert, der nur Segmente mit der angegeben Mindestanzahl an Pixeln in die Liste der Segmente aufnimmt. %Todo: Code in den Anhang? Segment-Berwertung via heatmap erläutern
+    \lstinputlisting[language=Python, caption=Python example]{code/extract_lane_segments.py} % Todo: Knievel Comment Quellcode geeignet?
 
 \subsection{Polynom-Approximation}
-    Im Anschluss wurde jedes dieser zusammenhängenden Segmente durch ein Polynom dritten Grades mit Hilfe der Funktion \textit{polyfit()} der Bibliothek numpy approximiert, um später die gesuchte Zielgrö{\ss}e, also den Abstand zwischen Reifenau{\ss}enkante und Innenkante Fahrbahnmarkierung auf Höhe des Rads bestimmen zu können.
+    Im Anschluss wurde jedes dieser zusammenhängenden Segmente durch ein Polynom dritten Grades mit Hilfe der Funktion \textit{polyfit()} der Bibliothek numpy approximiert, um später die gesuchte Zielgrö{\ss}e, also den Abstand zwischen Reifenau{\ss}enkante und Innenkante Fahrbahnmarkierung auf Höhe des Rads bestimmen zu können. Besonders bei gestrichelten Linien ist dies notwendig, da die erkannten Segmente, nicht immer auf Höhe das Rads lagen.
     \lstinputlisting[language=Python, caption=Python example]{code/fit_polynomial_to_segments.py} %Todo Code in den Anhang?
-    Au{\ss}erdem wurden Plausibilitäts-Prüfungen dieser Polynome durchgeführt, um Fehldetektionen zu reduzieren. So wurden unter anderem Polynome aussortiert, deren Extrema im Bereich der Bildkoordinaten lagen. %Todo Beispielbilder für alle Schritte
+    Au{\ss}erdem wurden Plausibilitäts-Prüfungen dieser Polynome durchgeführt, um Fehldetektionen zu reduzieren. So wurden unter anderem Polynome aussortiert, deren Extrema im Bereich der Bildkoordinaten lagen. Somit wurde nicht nur das Polynom, sondern auch das zu grunde liegende Segment für die Berechnung der Zielgröße verworfen und nicht weiter verarbeitet. %Todo Beispielbilder für alle Schritte
 
 \subsection{Abstandsberechnung}
-    Um die gesuchte Zielgrö{\ss}e zu ermitteln, wurde für jedes Polynom der kürzeste Abstand zum kalibrierten Radkantenpunkt berechnet. Dazu wurden Kandidatenpunkte und der Radkantenpunkt mit Hilfe der kalibrierten Homographie-Matrix in Weltkoordinaten transformiert, um daraus den echten Abstand in Metern zu berechnen. Zunächst wurde vereinfachend lediglich der Abstand zur dichtesten Fahrbahnmarkierungen als Messgrö{\ss}e ausgegeben.
+    Um die gesuchte Zielgrö{\ss}e zu ermitteln, wurde für jedes Polynom der kürzeste Abstand zum kalibrierten Radkantenpunkt, der während des Kalibrier-Vorgangs manuell zu setzen war, berechnet. Dazu wurden Kandidatenpunkte und der Radkantenpunkt mit Hilfe der kalibrierten Homographie-Matrix in Weltkoordinaten transformiert, um daraus den echten Abstand in Metern zu berechnen. Zunächst wurde vereinfachend lediglich der Abstand zur dichtesten Fahrbahnmarkierungen als Messgrö{\ss}e ausgegeben.
     %Todo beschreibe vorgehen: Kalibrierung/Aufnahme Messung/ Berechnung
 
 
 %Filterung in Kapitel Segmente und Polynome oder eigenes kapitel?
-\section{Auswahl und beschreibung der Konfidenzschätzung}
+\section{Auswahl und Beschreibung der Konfidenzschätzung}
     Zur Bewertung der Genaugkeit der Abstandsberechnung wurden mehrere Ansätze kombiniert, um eine möglichst genaue Schätzung abgeben zu können. Dazu sollte die Detektion des neuronalen Netzes TwinLiteNetPlus mit Hilfe erklärbarer Künstlicher Intelligenz (XAI) Methoden analysiert werden.
     Auf der nächsten Ebene sollte der aus der Nachverarbeitung resultierende Abstandswert mit Hilfe von Konfidenzschätzungen bewertet werden.
     
