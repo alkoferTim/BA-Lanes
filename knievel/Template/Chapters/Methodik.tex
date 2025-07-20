@@ -78,7 +78,7 @@
 Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e zu berechnen, wurde die im folgenden beschriebene Nachverarbeitung implementiert. 
 
 \subsection{Zusammenhängende Segmente}
-    Zunächst sollte aus der resultierenden Segmentierungsmaske eine Liste von zusammenhängenden Segmenten der Klasse Lane mithilfe der Funktion \textit{label()} der Bibliothek scipy ermittelt werden. Au{\ss}erdem wurde ein threshold implementiert, der nur Segmente mit der angegeben Mindestanzahl an Pixeln in die Liste der Segmente aufnimmt. %Todo: Code in den Anhang? Segment-Berwertung via heatmap erläutern
+    Zunächst sollte aus der resultierenden Segmentierungsmaske eine Liste von zusammenhängenden Segmenten, die als Fahrbahnmarkierung klassifiziert wurden, mithilfe der Funktion \textit{label()} der Bibliothek scipy ermittelt werden. Au{\ss}erdem wurde ein threshold implementiert, der nur Segmente mit der angegeben Mindestanzahl an Pixeln in die Liste der Segmente aufnimmt. %Todo: Code in den Anhang? Segment-Berwertung via heatmap erläutern
     \lstinputlisting[language=Python, caption=Python example]{code/extract_lane_segments.py} % Todo: Knievel Comment Quellcode geeignet?
 
 \subsection{Polynom-Approximation}
