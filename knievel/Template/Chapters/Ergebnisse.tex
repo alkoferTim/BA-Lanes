@@ -40,7 +40,19 @@
 
         Ein weiteres technisches Problem war die falsche Angabe der Kamera-Metadaten (z.B. Bildrate) in wenigen Videos, was die Synchonisation zu den Messdaten hinterher erschwerte oder unmöglich machte.
 
+\section{Konfidenz-Auswertung}
+ % GT VGL --> Sprünge gut herausgefiltert: Zusammenhang großer Fehler=geringe Konf
+ % volle Länge?
+ Insgesamt lässt sich in der Auswertung \ref{} erkennen, dass niedrige Konfidenzwerte mit großen Fehlern im Vergelich zu den Ground-Truth Daten korrespondieren. %Diese formulierung evtl. in Disukussion. Hier nur Werte aufzeigen
+ Besonders die Einbeziehung der in Kaptitel \ref{history_confidence} beschriebenen Historienbetrachtung hat dazu beigetragen Fehldetektionen durch große Sprünge zu erkennen und damit niedrig bewertet wurden.
+ Vermehrt wurden Fehldetektionen dadurch verursacht, dass die dichteste Linie schlechter oder gar nicht erkannt wurde, sodass der Abstand zur nächsten Linie, berechnet und als Distanz ausgegeben wurde.
+ Dieses Phänomen trat häufig auf und wurde auf abweichende Kamera-Perspektive im Vergleich zum verwendeten Trainingsdatensatz BDD100K \ref{chapter_bdd100k} zurückgeführt. 
+ Die dichteste Linie ist in der Regel deutlich größer im Verhältnis zur Bildgröße, als im Trainingsdatensatz und wurde daher vom vortrainierten Modell des TwinLiteNetPlus schlechter erkannt. %Todo zeige Bilder Training und echte
+ In Anhang \ref{AppendixC} ist dargestellt, dass die linke äußere Fahrbahnmarkierung als Segment 0 (Abb.\ref{fig:M2_T16_F28_s0}) mit einem Mittelwert von etwa 96 \% deutlich stabiler detektiert wurde als die dichtere gestrichelte Markierung. Diese ist nicht nur in mehrere kleine fragmente (Abb. \ref{fig:M2_T16_F28_s1} - \ref{fig:M2_T16_F28_s8}) aufgesplittet, sondern im Mittel auch merklich schlechter mit etwa 70\% bewertet.
+ Im Beispiel-Bild \ref{fig:M2_T16_F28_result} wurde die dichtere Linie jedoch gerade noch gut genut detektiert, sodass ein Abstandswert zur korrekten Linie berechnet wurde.
 
+  % heatmap --> äußere Linie oft besser
+ % Am besten Bild mit einzel-Segmenten und scores pro segment
 \section{Visualisierung und Analyse der XAI-Ergebnisse}
 \section{Konfidenzwerte im Vergleich zu Ground Truth}
 \section{Quantitative und qualitative Auswertung}
