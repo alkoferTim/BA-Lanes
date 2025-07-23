@@ -1,7 +1,78 @@
 \chapter{Methodik} 
 
 \label{Methodik}
-%Todo Kalibrierung
+\section{Kalibrierung}
+
+Kamerakalibrierung ist ein zentraler Schritt in der Computer Vision, um die Beziehung zwischen 3D-Weltkoordinaten und 2D-Bildkoordinaten zu bestimmen. Ziel ist es, die intrinsischen (z.B. Brennweite, optisches Zentrum) und extrinsischen (Position und Orientierung der Kamera) Parameter sowie die Linsenverzerrung zu ermitteln.
+
+Im vorliegenden Abschlussprojekt wird die Kalibrierung mit Hilfe eines bekannten Schachbrettmusters und der Bibliothek opencv vorgenommen, da diese eine hohe Genaugkeit und Robustheit, bei gleichzeitige einfacher Anwendung bietet.
+Das in OpenCV verwendete Kameramodell basiert auf dem idealen Lochkameramodell, erweitert um radiale und tangentiale Verzerrungen, die durch reale Linsen entstehen. Radiale Verzerrungen führen zu tonnen- oder kissenförmigen Verformungen, während tangentiale Verzerrungen durch eine nicht perfekt ausgerichtete Linse entstehen.
+
+Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position des Fahrzeugrades im Bild für die spätere Abstandsberechnung von der erkannten Fahrbahnmarkierung zu diesem Punkt abgefragt.
+
+    \subsection{Kalibrierkörper Schachbrettmuster}
+    %Warum eignet sich ein Schachbrettmuster gut
+    % Welche methoden werden verwendet findChessboardCorners
+    Die Verwendung eines planaren Musters (wie dem Schachbrett) wurde maßgeblich durch Zhengyou Zhang etabliert. 
+    In seiner einflussreichen Arbeit \glqq A Flexible New Technique for Camera Calibration\grqq \cite{Zhang2000} beschreibt Zhang ein Verfahren, das auf der Beobachtung eines zweidimensionalen Kalibriermusters aus verschiedenen Perspektiven basiert. Die Methode benötigt keine präzise bekannte 3D-Geometrie oder mechanisch geführte Bewegungen, sondern nutzt die Homographie zwischen dem Muster und dem Bild zur Schätzung der Kameraparameter. Dies machte die Kalibrierung erstmals praktikabel für den breiten Einsatz, etwa in der Robotik, Augmented Reality oder industriellen Bildverarbeitung.
+
+    Anhand der opencv Methode \textit{findChessboardCorners} werden die inneren Ecken des spezifizierten Schachbrettmusters im Bild erkannt.
+    Diese Ecken dienen als 2D-Bildpunkte, denen bekannte 3D-Weltpunkte auf der Kalibrierfläche zugeordnet werden können - eine Voraussetzung für die Berechnung der Kameraparameter.
+    %Todo: Bild einfügen erkannte Ecken
+
+
+    \subsection{Intrinsik}
+        Die intrinsischen Kameraparameter Brennweite $f$ und Lage des optischen Zentrums werden implizit durch die Kameramatrix K repräsentiert.
+        %Todo Formel für K
+        \[
+        K = 
+        \begin{bmatrix}
+        f_x & 0 & c_x \\
+        0 & f_y & c_y \\
+        0 & 0 & 1
+        \end{bmatrix}
+        \]
+        Dabei stellen $f_x$ und $f_y$ die Brennweite in Pixeln entlang der x beziehungsweise y Achse und $c_x$ und $c_y$ die Position des optischen Zentrums in Pixeln dar.
+        Die tatsächliche physische Brennweite $f$ kann anhand der physischen Pixelgröße $s$ und einem Skalierungsfaktor $m$ (meist 1, wenn die Einheiten konsitent sind) berechnet werden:
+        \[
+            f = \frac{f_x * s_x}{m}
+        \]
+        Die radialen ($k_i$) und tangentialen ($p_i$) Verzerrungskoeffizienten werden in der Matrix d zusammengefasst:
+        \[
+        \mathbf{d} = 
+        \begin{bmatrix}
+        k_1 & k_2 & p_1 & p_2 & k_3
+        \end{bmatrix}
+        \]
+
+        Beide Matrizen werden durch die Methode \textit{calibrateCamera} berechnet, wobei die Kameramatrix noch durch die Methode \textit{getOptimalNewCameraMatrix} noch optimmiert wird.
+        Da diese Parameter nur kameraspezifisch und unabhängig von der Bildszene sind, müssen sie nur einmalig ermittelt werden.
+
+    \subsection{Extrinsik}
+        Nachdem die intrinschen Kameraparameter wie zuvor beschrieben anhand mehrerer Bilder aus unterschiedlichen Perspektiven bei festem Schachbrettmuster ermittelt wurden, können die extrinsischen Kameraparameter berechnet werden.
+        Dazu wird die Kamera vor Messbeginn wie in Kapitel \ref{konzept} beschrieben am Fahrzeug montiert. Da sich die Kamera dann in einer festen Position und Orientierung befindet, müsste für die Nutzung mehrerer Bilder des Schachbrettmusters in unterscheiden Position, die exakte Verschiebung bekannt sein, um eine präzise Kalibrierung zu ermöglichen.
+        Da diese exakte Verschiebung nicht bekannt ist, wird die Methode \textit{findHomography} anhand der Schachbrettmusterecken eines Bildes in Radnähe verwendet.
+
+        Mithilfe der resultierenden Homographiematrix $H$ kann für einen Bildpunkt $p$ im Bild die entsprechende 3D-Weltposition $P$ wie folgt berechnet werden:
+        \[
+        \mathbf{P} = H \cdot \mathbf{p}
+        \]
+
+
+        % Todo beide Wege Homographie und die andere --> warum homograpie besser?
+        %Warum nicht rvecs tvecs
+        % Was stellt die matrix dar
+        % Wie können Punkte umgerechnet werden?
+    \subsection{Erweiterung}
+        Für die gesuchte Zielgröße muss zusätzlich nach der Kameramontage ein weiterer Kalibrierungsschritt durchgeführt werden, bei dem die Position des Reifens im Bild manuell gesetzt wird.
+        Dazu wird ein Fadenkreuz auf den untere Radmitte ausgerichtet.
+        Diese Bildkoordinaten werden zusammen mit der intrinschen und extrinsischen Kameraparametern in einer json-Datei gespeichert, die für die spätere Abstandsberechnung benötigt wird.
+        %Todo Bild Fadenkreuz auf Reifen
+        % Todo json?
+        
+% Position des Reifens + Schachbretts merken
+
+%Todo: ersetze alle ß mit \{ss}
 \section{Auswahl und Beschreibung des Datensatzes}
 
     Zu den bekanntesten Datensätzen für die Fahrspurerkennung zählen die in Kapitel \ref{chapter_datasets} vorgestellten Datensätze CULane \cite{CULanePaper}, TuSimple \cite{tusimple_lane_detection} und BDD100K \cite{bdd100k}, die jeweils unterschiedliche Herausforderungen wie verschiedene Wetterbedingungen, Tageszeiten, Stra{\ss}enarten und Verkehrssituationen abdecken und so die Entwicklung robuster Algorithmen ermöglichen. 
