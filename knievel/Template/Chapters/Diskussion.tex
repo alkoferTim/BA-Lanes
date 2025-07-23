@@ -8,7 +8,7 @@ Diese Korrespondenz, lässt sich in in den meisten Fällen auf die Historienanal
 \section{Nutzen von XAI für sicherheitskritische Anwendungen}
 \section{Vergleich mit anderen Unsicherheitsmaßen}
 \section{Verbesserungspotenziale}
-    Die Erkennung der gesuchten Zielgröße, sowie die Zuweisung eines geigneten Maßes für die Glaubwürdigkeit des Abstandswertes, haben in den untersuchten Messungen für die relavanten Situationen (Autobahnfahrt ohne Baustelle) bereits zufriedenstellend funktioniert.
+    Die Erkennung der gesuchten Zielgröße (Anhang \ref{AppendixD}), sowie die Zuweisung eines geigneten Maßes für die Glaubwürdigkeit des Abstandswertes, haben in den untersuchten Messungen für die relavanten Situationen (Autobahnfahrt ohne Baustelle) bereits zufriedenstellend funktioniert.
     Dennoch wurden die im folgenden beschriebenen Verbesserungspotenziale für die Weiterentwicklung identifiziert.
     \subsection{Historienanalye}
     Die für den Konfidenzwert einbezogene Größe $history_confidence$ soll unrealistische Sprünge durch einen niedrigen Konfidenzwert abbilden.
@@ -23,7 +23,7 @@ Diese Korrespondenz, lässt sich in in den meisten Fällen auf die Historienanal
     %Todo Skizze vorgehen
 
     \subsection{Betrachtung mehrerer Linien / Merging}
-    In der aktuellen Implementierung werden nur die Zielgröße des Abstand zur dichtesten Fahrbahnmarkierung und ein zugehöriger Konfidenzwert berechnet. 
+    In der aktuellen Implementierung werden nur die Zielgröße (Anhang \ref{AppendixD}) und ein zugehöriger Konfidenzwert berechnet. 
     Eine vollständigere Umsetzung könnte alle erkannten oder plausiblen Fahrbahnmarkierungen berücksichtigen, sodass nicht nur ein Abstandswert zur dichtesten Markierung, sondern mehrere Werte ausgegeben werden.
     So müssten Sprünge nicht zwingend auf eine Fehldetektion zurückgeführt werden, sondern könnten auch einer anderen Fahrbahnmarkierung zugeordnet werden.
     Diese Informationen über weitere Fahrbahnmarkierungen oder dem Ende der Fahrbahn, durch beispielweise einen Grünstreifen, könnten dann in der nachgelagerten KPI-Berechnung mit einbezogen werden.

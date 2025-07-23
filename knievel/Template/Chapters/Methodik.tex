@@ -23,7 +23,6 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
 
     \subsection{Intrinsik}
         Die intrinsischen Kameraparameter Brennweite $f$ und Lage des optischen Zentrums werden implizit durch die Kameramatrix K repräsentiert.
-        %Todo Formel für K
         \[
         K = 
         \begin{bmatrix}
@@ -64,7 +63,7 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
         % Was stellt die matrix dar
         % Wie können Punkte umgerechnet werden?
     \subsection{Erweiterung}
-        Für die gesuchte Zielgröße muss zusätzlich nach der Kameramontage ein weiterer Kalibrierungsschritt durchgeführt werden, bei dem die Position des Reifens im Bild manuell gesetzt wird.
+        Für die gesuchte Zielgröße (Anhang \ref{AppendixD}) muss zusätzlich nach der Kameramontage ein weiterer Kalibrierungsschritt durchgeführt werden, bei dem die Position des Reifens im Bild manuell gesetzt wird.
         Dazu wird ein Fadenkreuz auf den untere Radmitte ausgerichtet.
         Diese Bildkoordinaten werden zusammen mit der intrinschen und extrinsischen Kameraparametern in einer json-Datei gespeichert, die für die spätere Abstandsberechnung benötigt wird.
         %Todo Bild Fadenkreuz auf Reifen
@@ -77,8 +76,8 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
 
     Zu den bekanntesten Datensätzen für die Fahrspurerkennung zählen die in Kapitel \ref{chapter_datasets} vorgestellten Datensätze CULane \cite{CULanePaper}, TuSimple \cite{tusimple_lane_detection} und BDD100K \cite{bdd100k}, die jeweils unterschiedliche Herausforderungen wie verschiedene Wetterbedingungen, Tageszeiten, Stra{\ss}enarten und Verkehrssituationen abdecken und so die Entwicklung robuster Algorithmen ermöglichen. 
     
-    Die Besonderheiten des vorliegenden Projekts lagen zum einen in der  ungewöhlichen in \ref{konzept} beschrieben Kameraperspektive seitlich am Fahrzeug montiert mit Blick in Fahrtrichtung, zum anderen in der Beschaffenheit der Zielgrö{\ss}e, die nicht nur die Fahrbahnmarkierung selbst, sonderen deren innere Kante vom Reifen aus gesehen benötigt.
-    Es wurde sich für den Datensatz Berkeley Deep Drive (BDD100K) entschieden, da dieser nicht nur eine Vielzahl an Szenarien, sondern auch eine hohe Qualität an Annotationen bietet. Das wichtigste Entscheidungskriterium war jedoch die Art und Weise wie die Fahrbahnmarkierungen annotiert waren. Da jeweils die Kanten der Spurmarkierung annotiert wurden, sollte dies die Ermittlung der gesuchten Zielgrö{\ss}e (Abstand zwischen der Innenkante der Fahrspurmarkierung und Au{\ss}enkante des Vorderreifens) präzisieren.
+    Die Besonderheiten des vorliegenden Projekts lagen zum einen in der  ungewöhlichen in \ref{konzept} beschrieben Kameraperspektive seitlich am Fahrzeug montiert mit Blick in Fahrtrichtung, zum anderen in der Beschaffenheit der Zielgrö{\ss}e (Anhang \ref{AppendixD}), die nicht nur die Fahrbahnmarkierung selbst, sonderen deren innere Kante vom Reifen aus gesehen benötigt.
+    Es wurde sich für den Datensatz Berkeley Deep Drive (BDD100K) entschieden, da dieser nicht nur eine Vielzahl an Szenarien, sondern auch eine hohe Qualität an Annotationen bietet. Das wichtigste Entscheidungskriterium war jedoch die Art und Weise wie die Fahrbahnmarkierungen annotiert waren. Da jeweils die Kanten der Spurmarkierung annotiert wurden, sollte dies die Ermittlung der gesuchten Zielgrö{\ss}e (Anhang \ref{AppendixD}) präzisieren.
     Andere betrachtete Datensätze gaben meist nur die Mitte der Fahrbahnmarkierung als ein einziges Polynom oder in Form von B-Splines an, sodass die Information über die innere Kante höchstens geschätzt werden konnte.
 
 % \section{Datenvorverarbeitung (z. B. Normalisierung, Augmentation)}
@@ -103,10 +102,9 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
     %Todo versionnummern hochziehen --> Implementierung streichen
     Um die Anforderungen des Projekts zu erfüllen, wurden folgende Anpassungen im TwinLiteNetPlus vorgenommen:
     %Todo: Anforderungen am Anfang beschreiben und hier referenzieren
-    Die Erkennung der befahrbaren Bereiche wurde deaktiviert, da diese nicht für die Berechnung der Zielgrö{\ss}e relevant war.
+    Die Erkennung der befahrbaren Bereiche wurde deaktiviert, da diese nicht für die Berechnung der Zielgrö{\ss}e (Anhang \ref{AppendixD}) relevant war.
     Stattdessen wurden eigene Klassen für die Farbe (wei{\ss}/gelb) und die Art der Fahrbahnmarkierung (durchgezogen/gestrichelt) hinzugefügt.
 
-    %Todo nachverarbeitung
 \section{Evaluationsmetriken} % +m Darstellung Fehler als Violin-Plots
     Um die Detektion des TwinLiteNetPlus zu evaluieren, wurden die folgenden Metriken verwendet:
     
@@ -139,14 +137,15 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
     \]
 
     \subsection{Absoluter Fehler}
-        Während die vorangegangen Metriken die Genauigkeit der Fahrbahnmarkierungserkennung auf Bildebene (in Pixeln) beurteilten, wurde zusätzlich ein Vergleich zu den internen BUS-Signalen der eigenen Audi Fahrzeuge durchgeführt. Dabei wurde der absolute Fehler der gesuchten Zielgrö{\ss}e (Abstand zwischen Radau{\ss}enkante und Spurinnenkante) in Metern ermittelt.
+        Während die vorangegangen Metriken die Genauigkeit der Fahrbahnmarkierungserkennung auf Bildebene (in Pixeln) beurteilten, wurde zusätzlich ein Vergleich zu den internen BUS-Signalen der eigenen Audi Fahrzeuge durchgeführt. 
+        Dabei wurde der absolute Fehler der gesuchten Zielgrö{\ss}e (Anhang \ref{AppendixD}) in Metern ermittelt.
 
         Eine Verteilung dieses absoluten Fehlers wurde pro Video als Violin-Plot dargestellt, um einen schnellen Überblick über die Qualität der Ergebnisse zu erhalten. %Todo Bild einfügen
 
 
 
 \section{Nachverarbeitung} % Segmente -> Polynome -> Filter -> Abstand berechnen
-Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e zu berechnen, wurde die im folgenden beschriebene Nachverarbeitung implementiert. 
+Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixD}) zu berechnen, wurde die im folgenden beschriebene Nachverarbeitung implementiert. 
 
 \subsection{Zusammenhängende Segmente}
     Zunächst sollte aus der resultierenden Segmentierungsmaske eine Liste von zusammenhängenden Segmenten, die als Fahrbahnmarkierung klassifiziert wurden, mithilfe der Funktion \textit{label()} der Bibliothek scipy ermittelt werden. Au{\ss}erdem wurde ein threshold implementiert, der nur Segmente mit der angegeben Mindestanzahl an Pixeln in die Liste der Segmente aufnimmt. %Todo: Code in den Anhang? Segment-Berwertung via heatmap erläutern
@@ -155,10 +154,10 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e zu berechnen, wurde die im 
 \subsection{Polynom-Approximation}
     Im Anschluss wurde jedes dieser zusammenhängenden Segmente durch ein Polynom dritten Grades mit Hilfe der Funktion \textit{polyfit()} der Bibliothek numpy approximiert, um später die gesuchte Zielgrö{\ss}e, also den Abstand zwischen Reifenau{\ss}enkante und Innenkante Fahrbahnmarkierung auf Höhe des Rads bestimmen zu können. Besonders bei gestrichelten Linien ist dies notwendig, da die erkannten Segmente, nicht immer auf Höhe das Rads lagen.
     \lstinputlisting[language=Python, caption=Python example]{code/fit_polynomial_to_segments.py} %Todo Code in den Anhang?
-    Au{\ss}erdem wurden Plausibilitäts-Prüfungen dieser Polynome durchgeführt, um Fehldetektionen zu reduzieren. So wurden unter anderem Polynome aussortiert, deren Extrema im Bereich der Bildkoordinaten lagen. Somit wurde nicht nur das Polynom, sondern auch das zu grunde liegende Segment für die Berechnung der Zielgröße verworfen und nicht weiter verarbeitet. %Todo Beispielbilder für alle Schritte
+    Au{\ss}erdem wurden Plausibilitäts-Prüfungen dieser Polynome durchgeführt, um Fehldetektionen zu reduzieren. So wurden unter anderem Polynome aussortiert, deren Extrema im Bereich der Bildkoordinaten lagen. Somit wurde nicht nur das Polynom, sondern auch das zu grunde liegende Segment für die Berechnung der Zielgröße (Anhang \ref{AppendixD}) verworfen und nicht weiter verarbeitet. %Todo Beispielbilder für alle Schritte
 
 \subsection{Abstandsberechnung}
-    Um die gesuchte Zielgrö{\ss}e zu ermitteln, wurde für jedes Polynom der kürzeste Abstand zum kalibrierten Radkantenpunkt, der während des Kalibrier-Vorgangs manuell zu setzen war, berechnet. Dazu wurden Kandidatenpunkte und der Radkantenpunkt mit Hilfe der kalibrierten Homographie-Matrix in Weltkoordinaten transformiert, um daraus den echten Abstand in Metern zu berechnen. Zunächst wurde vereinfachend lediglich der Abstand zur dichtesten Fahrbahnmarkierungen als Messgrö{\ss}e ausgegeben.
+    Um die gesuchte Zielgrö{\ss}e (Anhang \ref{AppendixD}) zu ermitteln, wurde für jedes Polynom der kürzeste Abstand zum kalibrierten Radkantenpunkt, der während des Kalibrier-Vorgangs manuell zu setzen war, berechnet. Dazu wurden Kandidatenpunkte und der Radkantenpunkt mit Hilfe der kalibrierten Homographie-Matrix in Weltkoordinaten transformiert, um daraus den echten Abstand in Metern zu berechnen. Zunächst wurde vereinfachend lediglich der Abstand zur dichtesten Fahrbahnmarkierungen als Messgrö{\ss}e ausgegeben.
     %Todo beschreibe vorgehen: Kalibrierung/Aufnahme Messung/ Berechnung
 
 
@@ -194,7 +193,7 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e zu berechnen, wurde die im 
         Beispielweise eine Detektion der Spurmarkierung der nebenliegenden Fahrspur sollte durch die Historienanalyse als fehlerhaft eingeschätzt werden.
     
     \subsection{Verrechnung}
-        Letztendlich sollte die Konfidenzschätzung aus den drei genannten Komponenten verrechnet werden, um anhand einer Gesamtkonfidenz eine Entscheidung über die Glaubwürdigkeit der erkannten Zielgröße zu treffen. Für die KPI-Berechnung von Assistenzsystemen wie der Spurmittenführung sollten entprechende Toolketten so anhand der Konfidenzschätzung und anderen Plausibilitätsprüfungen verwendbare Manöver bestimmen. 
+        Letztendlich sollte die Konfidenzschätzung aus den drei genannten Komponenten verrechnet werden, um anhand einer Gesamtkonfidenz eine Entscheidung über die Glaubwürdigkeit der erkannten Zielgröße (Anhang \ref{AppendixD}) zu treffen. Für die KPI-Berechnung von Assistenzsystemen wie der Spurmittenführung sollten entprechende Toolketten so anhand der Konfidenzschätzung und anderen Plausibilitätsprüfungen verwendbare Manöver bestimmen. 
         Dazu wurden die drei Komponenten wie dargestllt gleich gewichtet verrechnet:
         \begin{align*}
         \texttt{final\_confidence} = \\ \frac{\texttt{score\_cam\_confidence} + \texttt{history\_confidence} + \texttt{chessboard\_confidence}}{3}
