@@ -2,7 +2,7 @@
 
 \label{Methodik}
 \section{Kalibrierung}
-
+\label{chapter_calibration}
 Kamerakalibrierung ist ein zentraler Schritt in der Computer Vision, um die Beziehung zwischen 3D-Weltkoordinaten und 2D-Bildkoordinaten zu bestimmen. Ziel ist es, die intrinsischen (z.B. Brennweite, optisches Zentrum) und extrinsischen (Position und Orientierung der Kamera) Parameter sowie die Linsenverzerrung zu ermitteln.
 
 Im vorliegenden Abschlussprojekt wird die Kalibrierung mit Hilfe eines bekannten Schachbrettmusters und der Bibliothek opencv vorgenommen, da diese eine hohe Genaugkeit und Robustheit, bei gleichzeitige einfacher Anwendung bietet.
@@ -22,7 +22,7 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
 
 
     \subsection{Intrinsik}
-        Die intrinsischen Kameraparameter Brennweite $f$ und Lage des optischen Zentrums werden implizit durch die Kameramatrix K repräsentiert.
+        Die intrinsischen Kameraparameter Brennweite $f$ und Lage des optischen Zentrums $c$ werden implizit durch die Kameramatrix K repräsentiert.
         \[
         K = 
         \begin{bmatrix}
@@ -49,8 +49,8 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
 
     \subsection{Extrinsik}
         Nachdem die intrinschen Kameraparameter wie zuvor beschrieben anhand mehrerer Bilder aus unterschiedlichen Perspektiven bei festem Schachbrettmuster ermittelt wurden, können die extrinsischen Kameraparameter berechnet werden.
-        Dazu wird die Kamera vor Messbeginn wie in Kapitel \ref{konzept} beschrieben am Fahrzeug montiert. Da sich die Kamera dann in einer festen Position und Orientierung befindet, müsste für die Nutzung mehrerer Bilder des Schachbrettmusters in unterscheiden Position, die exakte Verschiebung bekannt sein, um eine präzise Kalibrierung zu ermöglichen.
-        Da diese exakte Verschiebung nicht bekannt ist, wird die Methode \textit{findHomography} anhand der Schachbrettmusterecken eines Bildes in Radnähe verwendet.
+        Dazu wird die Kamera vor Messbeginn wie in Kapitel \ref{konzept} beschrieben seitlich am Fahrzeug montiert. Da sich die Kamera dann in einer festen Position und Orientierung befindet, müsste für die Nutzung mehrerer Bilder des Schachbrettmusters in unterscheiden Position, die exakte Verschiebung bekannt sein, um eine präzise Kalibrierung zu ermöglichen.
+        Da diese exakte Verschiebung nicht bekannt ist, wird die Methode \textit{findHomography} anhand der Schachbrettmusterecken eines einzelnen Bildes in Radnähe wie in Abbildung \ref{fig:tire_position} verwendet. 
 
         Mithilfe der resultierenden Homographiematrix $H$ kann für einen Bildpunkt $p$ im Bild die entsprechende 3D-Weltposition $P$ wie folgt berechnet werden:
         \[
@@ -64,20 +64,22 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
         % Wie können Punkte umgerechnet werden?
     \subsection{Erweiterung}
         Für die gesuchte Zielgrö{\ss}e (Anhang \ref{AppendixE}) muss zusätzlich nach der Kameramontage ein weiterer Kalibrierungsschritt durchgeführt werden, bei dem die Position des Reifens im Bild manuell gesetzt wird.
-        Dazu wird ein Fadenkreuz auf den untere Radmitte ausgerichtet.
-        Diese Bildkoordinaten werden zusammen mit der intrinschen und extrinsischen Kameraparametern in einer json-Datei gespeichert, die für die spätere Abstandsberechnung benötigt wird.
-        %Todo Bild Fadenkreuz auf Reifen
+        Dazu wird ein Fadenkreuz auf den untere Radmitte ausgerichtet wie in Abbidlung \ref{fig:tire_position} aufgezeigt ist.
+        Diese Bildkoordinaten werden zusammen mit der intrinschen und extrinsischen Kameraparametern in einer json-Datei gespeichert, die für die spätere Abstandsberechnung benötigt wird. 
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=\linewidth]{Figures/calibration/calibration_tire_left.jpg}
+            \caption{Kalibrierung der Radposition}
+            \label{fig:tire_position}
+        \end{figure}
         % Todo json?
-        
-% Position des Reifens + Schachbretts merken
 
-%Todo: ersetze alle {\ss} mit \{ss}
 \section{Auswahl und Beschreibung des Datensatzes}
 
     Zu den bekanntesten Datensätzen für die Fahrspurerkennung zählen die in Kapitel \ref{chapter_datasets} vorgestellten Datensätze CULane \cite{CULanePaper}, TuSimple \cite{tusimple_lane_detection} und BDD100K \cite{bdd100k}, die jeweils unterschiedliche Herausforderungen wie verschiedene Wetterbedingungen, Tageszeiten, Stra{\ss}enarten und Verkehrssituationen abdecken und so die Entwicklung robuster Algorithmen ermöglichen. 
     
-    Die Besonderheiten des vorliegenden Projekts lagen zum einen in der  ungewöhlichen in \ref{konzept} beschrieben Kameraperspektive seitlich am Fahrzeug montiert mit Blick in Fahrtrichtung, zum anderen in der Beschaffenheit der Zielgrö{\ss}e (Anhang \ref{AppendixE}), die nicht nur die Fahrbahnmarkierung selbst, sonderen deren innere Kante vom Reifen aus gesehen benötigt.
-    Es wurde sich für den Datensatz Berkeley Deep Drive (BDD100K) entschieden, da dieser nicht nur eine Vielzahl an Szenarien, sondern auch eine hohe Qualität an Annotationen bietet. Das wichtigste Entscheidungskriterium war jedoch die Art und Weise wie die Fahrbahnmarkierungen annotiert waren. Da jeweils die Kanten der Spurmarkierung annotiert wurden, sollte dies die Ermittlung der gesuchten Zielgrö{\ss}e (Anhang \ref{AppendixE}) präzisieren.
+    Die Besonderheiten des vorliegenden Projekts lagen zum einen in der  ungewöhlichen in Kapitel \ref{konzept} beschrieben Kameraperspektive seitlich am Fahrzeug montiert mit Blick in Fahrtrichtung, zum anderen in der Beschaffenheit der Zielgrö{\ss}e (Anhang \ref{AppendixE}), die nicht nur die Fahrbahnmarkierung selbst, sonderen deren innere Kante vom Reifen aus gesehen benötigt.
+    Es wurde sich für den Datensatz Berkeley Deep Drive (BDD100K) entschieden, da dieser nicht nur eine Vielzahl an Szenarien, sondern auch eine hohe Qualität an Annotationen bietet. Das wichtigste Entscheidungskriterium war jedoch die Art und Weise wie die Fahrbahnmarkierungen annotiert waren. Da jeweils die Kanten der Spurmarkierung annotiert wurden, sollte dies die Ermittlung der gesuchten Zielgrö{\ss}e präzisieren.
     Andere betrachtete Datensätze gaben meist nur die Mitte der Fahrbahnmarkierung als ein einziges Polynom oder in Form von B-Splines an, sodass die Information über die innere Kante höchstens geschätzt werden konnte.
 
 % \section{Datenvorverarbeitung (z. B. Normalisierung, Augmentation)}
@@ -93,17 +95,18 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
         Das TwinLiteNet+ ist ein effizientes und leichtgewichtiges Modell, das für die gleichzeitige Segmentierung von befahrbaren Bereichen und Fahrspuren in autonomen Fahrszenarien entwickelt wurde. Es umfasst mehrere Schlüsselkomponenten, darunter Encoder- und Decoder-Blöcke, die speziell für die Segmentierungsaufgaben konfiguriert sind \cite{TwinLiteNet}. 
         %Todo bild einfügen + genauer beschreiben
         % Darüber hinaus werden Focal Loss und Tversky Loss als Verlustfunktionen während des Trainings verwendet, um die Leistung auf herausfordernden Proben zu verbessern. 
+
         Das TwinLiteNetPlus stellt vier vortrainierte Modelle zur Verfügung, die von "nano" bis "large" reichen und sich in der Balance zwischen Genaugkeit und Geschwindigkeit unterscheiden. %todo grafik gflops
         Für das vorliegende Projekt wurde ein Modell mit der Bezeichnung "large" verwendet, da zunächst die nicht zeitkritische offline Nachverarbeitung im Vordergrund stand.
 
     % \subsection{Trainingsstrategie (Loss-Funktion, Optimierer, Hyperparameter)}
 
-    \subsection{Anpassungen des TwinLiteNetPlus} %Todo hier rausnehmen? und in den Ausblick
-    %Todo versionnummern hochziehen --> Implementierung streichen
-    Um die Anforderungen des Projekts zu erfüllen, wurden folgende Anpassungen im TwinLiteNetPlus vorgenommen:
-    %Todo: Anforderungen am Anfang beschreiben und hier referenzieren
-    Die Erkennung der befahrbaren Bereiche wurde deaktiviert, da diese nicht für die Berechnung der Zielgrö{\ss}e (Anhang \ref{AppendixE}) relevant war.
-    Stattdessen wurden eigene Klassen für die Farbe (wei{\ss}/gelb) und die Art der Fahrbahnmarkierung (durchgezogen/gestrichelt) hinzugefügt.
+    % \subsection{Anpassungen des TwinLiteNetPlus} %Todo hier rausnehmen? und in den Ausblick
+    % %Todo versionnummern hochziehen --> Implementierung streichen
+    % Um die Anforderungen des Projekts zu erfüllen, wurden folgende Anpassungen im TwinLiteNetPlus vorgenommen:
+    % %Todo: Anforderungen am Anfang beschreiben und hier referenzieren
+    % Die Erkennung der befahrbaren Bereiche wurde deaktiviert, da diese nicht für die Berechnung der Zielgrö{\ss}e (Anhang \ref{AppendixE}) relevant war.
+    % Stattdessen wurden eigene Klassen für die Farbe (wei{\ss}/gelb) und die Art der Fahrbahnmarkierung (durchgezogen/gestrichelt) hinzugefügt.
 
 \section{Evaluationsmetriken} % +m Darstellung Fehler als Violin-Plots
     Um die Detektion des TwinLiteNetPlus zu evaluieren, wurden die folgenden Metriken verwendet:
@@ -137,14 +140,15 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
     \]
 
     \subsection{Absoluter Fehler}
-        Während die vorangegangen Metriken die Genauigkeit der Fahrbahnmarkierungserkennung auf Bildebene (in Pixeln) beurteilten, wurde zusätzlich ein Vergleich zu den internen BUS-Signalen der eigenen Audi Fahrzeuge durchgeführt. 
+        Während die vorangegangen Metriken die Genauigkeit der Segmentierung auf Bildebene (in Pixeln) beurteilten, wurde zusätzlich ein Vergleich zu den internen BUS-Signalen der eigenen Audi Fahrzeuge durchgeführt. 
         Dabei wurde der absolute Fehler der gesuchten Zielgrö{\ss}e (Anhang \ref{AppendixE}) in Metern ermittelt.
 
-        Eine Verteilung dieses absoluten Fehlers wurde pro Video als Violin-Plot dargestellt, um einen schnellen Überblick über die Qualität der Ergebnisse zu erhalten. %Todo Bild einfügen
+        Eine Verteilung dieses absoluten Fehlers wurde pro Video als Violin-Plot wie in Abbildung \ref{fig:Evaluation16} dargestellt, um einen schnellen Überblick über die Qualität der Ergebnisse zu erhalten. 
 
 
 
 \section{Nachverarbeitung} % Segmente -> Polynome -> Filter -> Abstand berechnen
+\label{chapter_postprocessing}
 Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu berechnen, wurde die im folgenden beschriebene Nachverarbeitung implementiert. 
 
 \subsection{Zusammenhängende Segmente}
@@ -164,23 +168,32 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
 %Filterung in Kapitel Segmente und Polynome oder eigenes kapitel?
 \section{Auswahl und Beschreibung der Konfidenzschätzung}
     \label{chapter_confidence}
-    Zur Bewertung der Genaugkeit der Abstandsberechnung wurden mehrere Ansätze kombiniert, um eine möglichst genaue Schätzung abgeben zu können. Dazu sollte die Detektion des neuronalen Netzes TwinLiteNetPlus mit Hilfe erklärbarer Künstlicher Intelligenz (XAI) Methoden analysiert werden.
-    Auf der nächsten Ebene sollte der aus der Nachverarbeitung resultierende Abstandswert mit Hilfe von Konfidenzschätzungen bewertet werden.
+    Zur Bewertung der Genaugkeit der Abstandsberechnung werden mehrere Ansätze kombiniert, um eine möglichst genaue Schätzung abgeben zu können. 
+    Dazu wird die Segmentierung des neuronalen Netzes TwinLiteNetPlus mit Hilfe erklärbarer Künstlicher Intelligenz (XAI) Methoden analysiert.
+
+    Auf der nächsten Ebene wird dann zusätzlich die anschließende in Kapitel \ref{chapter_postprocessing} beschriebene Nachverarbeitung der Segmentierung bewertet werden.
+    
+    Dem am Ende resultierenden Abstandswert sollte dann durch die Verrechnung der einzelnen im folgenden beschriebenen Bestandteile eine Konfidenzschätzung im Bereich 0 (schlecht) bis 1 (gut) zugeordnet werden.
     
     \subsection{Detektionsbewertung mittels ScoreCAM-Heatmap}
         Das in Kapitel \ref{scoreCam_beschreibung} beschriebene Verfahren Score-CAM eignet sich besonders gut für Bild-Segmentierung, weil es im Vergleich zu anderen CAM-Methoden robustere, schärfere und oft präzisere Aktivierungskarten liefert. Der Hauptvorteil liegt darin, dass Score-CAM keine Gradienten benötigt, sondern die tatsächlichen Modellantworten auf maskierte Bildbereiche nutzt, was zu stabileren und besser lokalisierten Segmentierungen führt.
         In Anhang \ref{AppendixB} sind beispielhaft für ein Einzelbild der Messungen sowohl die generierte ScoreCAM, als auch die GradCam Heatmap dargestellt, um die Unterschiede zwischen den beiden Methoden zu verdeutlichen.
 
         Der höhere Rechenaufwand von ScoreCAM war zunächst zu vernachlässigen, da die Auswertung im Nachgang einer Messung und damit nicht in Echtzeit erfolgte.
-        Für den ersten Teil der Konfidenzschätzungen wurde für jedes zusammenhängende Segment der Mittelwert der ScoreCAM-Heatmap berechnet.
-        %Todo: Formel &/ Code
+        Für den ersten Teil der Konfidenzschätzungen wird für jedes zusammenhängende Segment der Mittelwert der ScoreCAM-Heatmap berechnet.
+        \[
+        \texttt{score\_cam\_confidence} = \frac{1}{n} \sum_{i=1}^{n} score\_cam\_value_i
+        \]
     
     \subsection{Abstandsbewertung}
-        Der Abstandsschätzung liegt eine vorangegangene Kalibrierung mittels Schachbrett-Muster zu Grunde. %Todo referenz Kalibrierungskapitel
-        Um die Konfidenz des berechneten Abstandswerts weiter zu präzisieren, sollte die Lage eines Segments zu dem Bereich in dem das Schachbrettmuster für die Kalibrierung lag einbezogen werden. 
-        Dadurch sollten die durch die Polynom-Approximation entstehenden Fehler berücksichtigt werden. Erkannte Segmente, die besonders nah oder im Bereich des Schachbrettmusters lagen, lie{\ss}en einen geringen Fehler des Polynoms im betrachteten Bereich vermuten und sollten daher eine hohe Konfidenz erhalten. %Todo Beispielbilder
-        Die durchschnittliche Entfernung eines Segments zum Schachbrettmuster wurde als Konfidenzschätzung verwendet. %Todo
-        %Todo Formel chessboard_confidence
+        Der Berechnung der Zielgröße liegt eine vorangegangene Kalibrierung in Kapitel \ref{chapter_calibration} mittels Schachbrett-Muster zu Grunde. 
+        Um die Konfidenz des berechneten Abstandswerts weiter zu präzisieren, wird die Lage eines Segments zu dem Bereich in dem das Schachbrettmuster für die Kalibrierung lag einbezogen werden. 
+        Dadurch sollten die durch die Polynom-Approximation entstehenden Fehler berücksichtigt werden. Erkannte Segmente, die besonders nah oder im Bereich des Schachbrettmusters lagen, lie{\ss}en einen geringen Fehler des Polynoms im betrachteten Bereich vermuten und sollten daher eine hohe Konfidenz erhalten.
+        Die durchschnittliche Entfernung eines Segments zum Schachbrettmuster wurde als Konfidenzschätzung verwendet. %Todo: erkläre mit Bild wie d berechnet wird
+
+        \[
+        \texttt{chessboard\_confidence} = \frac{1}{n} \sum_{i=1}^{n} chessboard\_distance_i
+        \]
     
     \subsection{Historienbetrachtung}
     \label{history_confidence}
@@ -189,14 +202,13 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
         \text{history\_confidence} = e^{-\frac{(x - \mu)^2}{2\sigma^2}}
         \]
 
-        Ein hoher Wert der resultierenden $history_confidence$ deutet auf eine hohe Konsistenz mit der bisherigen Messhistorie hin, während ein niedriger Wert auf eine potenzielle Anomalie oder fehlerhafte Detektion schlie{\ss}en lässt. 
+        Ein hoher Wert der resultierenden $history\_confidence$ deutet auf eine hohe Konsistenz mit der bisherigen Messhistorie hin, während ein niedriger Wert auf eine potenzielle Anomalie oder fehlerhafte Detektion schlie{\ss}en lässt. 
         Diese Bewertung dient der Erhöhung der Robustheit des Systems gegenüber Ausrei{\ss}ern und unerwarteten Messwertänderungen, die durch Fehldetektionen verursacht werden könnten.
         Beispielweise eine Detektion der Spurmarkierung der nebenliegenden Fahrspur sollte durch die Historienanalyse als fehlerhaft eingeschätzt werden.
     
     \subsection{Verrechnung}
-        Letztendlich sollte die Konfidenzschätzung aus den drei genannten Komponenten verrechnet werden, um anhand einer Gesamtkonfidenz eine Entscheidung über die Glaubwürdigkeit der erkannten Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu treffen. Für die KPI-Berechnung von Assistenzsystemen wie der Spurmittenführung sollten entprechende Toolketten so anhand der Konfidenzschätzung und anderen Plausibilitätsprüfungen verwendbare Manöver bestimmen. 
+        Letztendlich sollte die Konfidenzschätzung aus den drei genannten Komponenten verrechnet werden, um anhand der  Gesamtkonfidenz $final\_confidence$ eine Entscheidung über die Glaubwürdigkeit der erkannten Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu treffen. Für die KPI-Berechnung von Assistenzsystemen wie der Spurmittenführung können entprechende Toolketten so anhand der Konfidenzschätzung und anderen Plausibilitätsprüfungen verwendbare Manöver bestimmen. 
         Dazu wurden die drei Komponenten wie dargestllt gleich gewichtet verrechnet:
         \begin{align*}
         \texttt{final\_confidence} = \\ \frac{\texttt{score\_cam\_confidence} + \texttt{history\_confidence} + \texttt{chessboard\_confidence}}{3}
         \end{align*}
-        %Todo: begründung Gewichtung siehe Ergebnisse
