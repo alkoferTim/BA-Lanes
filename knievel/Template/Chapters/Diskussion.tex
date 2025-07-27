@@ -3,11 +3,18 @@
 \label{Diskussion}
 
 \section{Aussagekraft und Grenzen der Konfidenzwerte}
-Insgesamt zeigt sich, dass niedrige Konfidenzwerte mit hohen Fehlern im Vergleich zu Ground-Truth Werten korrespondieren, weshalb ein geeignetes Maß für die Glaubwürdigkeit des Abstandswertes gefunden wurde.
-Diese Korrespondenz, lässt sich in in den meisten Fällen auf die Historienanalyse zurückführen, da Fehldetektionen somit zuverlässig ermittelt werden konnten. 
-\section{Nutzen von XAI für sicherheitskritische Anwendungen}
-\section{Vergleich mit anderen Unsicherheitsmaßen}
+Die in Kapitel \ref{chapter_conf_eval} beschriebene Auswertung zeigt, dass niedrige Konfidenzwerte mit hohen Fehlern im Vergleich zu Ground-Truth Werten korrespondieren.
+ 
+Besonders die Einbeziehung der in Kaptitel \ref{history_confidence} beschriebenen Historienbetrachtung hat dazu beigetragen Fehldetektionen durch große Sprünge zu erkennen und damit niedrig bewerten. Lediglich in Fällen, in denen die dichte der Außreißer durch Fehldetektionen zu hoch wird, kann die Historienbetrachtung keinen sinnvollen beitrag mehr für die Konfidenzbetrachtung leisten, da eine geringe Rate von Fehldetektionen vorrausgesetzt wird.
+
+Bei der Berechnung des ScoreCAM Mittelwerts eines Segments hat sich gezeigt, dass äußere Linien in der Regel stabiler erkannt werden, als die für die Zielgröße relevante dichteste Linie. Dennoch ist die Einbeziehung dieses Scores in die Konfidenzbetrachtung sinnvoll, um einen Eindruck über die Güte der Segmentierung zu bekommen, da äußere Fahrbahnmarkierungen durch die anderen Bestandteile des Konfidenzwerts entsprechend bewertet wurde.
+
+Für die Betrachtung des Konfidenzwerts im relevanten Bereich (Autobahnfahrt ohne Baustellen) zeigt sich insgesamt eine hohe Korrespondenz zwischen niedrigen Konfidenzwerten und hohen absoluten Fehlern,weshalb ein geeignetes Maß für die Glaubwürdigkeit des Abstandswertes gefunden wurde.
+
+Nicht nur die Segmentierung, sowie die Nachverarbeitung haben jedoch Verbesserungspotenziale, die im folgenden Kapitel aufgezeigt werden.
+
 \section{Verbesserungspotenziale}
+\label{chapter_verbesserungen}
     Die Erkennung der gesuchten Zielgröße (Anhang \ref{AppendixD}), sowie die Zuweisung eines geigneten Maßes für die Glaubwürdigkeit des Abstandswertes, haben in den untersuchten Messungen für die relavanten Situationen (Autobahnfahrt ohne Baustelle) bereits zufriedenstellend funktioniert.
     Dennoch wurden die im folgenden beschriebenen Verbesserungspotenziale für die Weiterentwicklung identifiziert.
     \subsection{Historienanalye}
@@ -33,13 +40,13 @@ Diese Korrespondenz, lässt sich in in den meisten Fällen auf die Historienanal
 
     \subsection{Modell-Anpassungen}
     Die im Zeitrahmen der Abschlussarbeit erstellten Auswertungen basieren auf der Verwendung des vortrainierten Modells TwinLiteNetPlus anhand des Berkeley Deep Drive Datensatzes.
-    Wie in \ref{} beschrieben werden durch die abweichende Kameraperspektive zum Trainingsdatensatz häufig die benötigten dichtesten Linien nicht so gut erkannt wie Linien, die weiter entfernt sind.
+    Wie in Kapitel \ref{konzept} beschrieben werden durch die abweichende Kameraperspektive zum Trainingsdatensatz häufig die benötigten dichtesten Linien nicht so gut erkannt wie Linien, die weiter entfernt sind.
     Um dieses Phänomen zu reduzieren, sollten das Modell mit eigenen Trainingsdaten nochmals verfeinert werden.
     Dies wäre abgesehen davon Daten labeln zu müssen mit geringem Aufwand erreichbar.
     %Todo hier Ergebnisse
 
     Noch besser wäre ein Umbau des Modells, sodass nicht nur eine Klasse für Fahrbahnmarkierungen existiert, sondern Information wie der Linientyp (getrichelt/durchgezogen) und die Linienfarbe (gelb/weiß) direkt als entsprechende Klassen implementiert werden.
-    Ein erster Ansatz hierfür wurde bereits geschaffen und zeigt folgende Ergebnisse auf \ref{} %todo anhang
+    % Ein erster Ansatz hierfür wurde bereits geschaffen und zeigt folgende Ergebnisse auf \ref{} %todo anhang
     Nachteil dieser Methode ist, das der Trainingsdatensatz Berkeley DeepDrive kein konvertierungsskript von Labels in Form von json zu Masken zu konvertieren.
     Entsprechende Masken stehen zwar zu Verfügung, aber eine Rückführung welche Kante zu welchem Segment gehört ist nur schwierig möglich. Damit fehlt die Zuordnung zu entsprechenden Klassen wie z.B. gestrichelte weiße Linie.
     Ein Modell das anhand der verfpgbaren eigenen Labels trainiert wurde, erkannte zuverlässig die einzelnen Klassen. Das Umfang des Trainingsdatensatzes müsste aber deutlich erhöht werden, um gute Generalisierung zu erzielen.
@@ -48,5 +55,5 @@ Diese Korrespondenz, lässt sich in in den meisten Fällen auf die Historienanal
  
     %Filterung der Messdaten, um außreißer noch besser zu erkennen
 
-    %autoencoder: Lernen der Featurem anstatt diese zu designen
+    %Todo: autoencoder: Lernen der Featurem anstatt diese zu designen
     

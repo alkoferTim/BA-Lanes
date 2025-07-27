@@ -163,6 +163,7 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixD}) zu
 
 %Filterung in Kapitel Segmente und Polynome oder eigenes kapitel?
 \section{Auswahl und Beschreibung der Konfidenzschätzung}
+    \label{chapter_confidence}
     Zur Bewertung der Genaugkeit der Abstandsberechnung wurden mehrere Ansätze kombiniert, um eine möglichst genaue Schätzung abgeben zu können. Dazu sollte die Detektion des neuronalen Netzes TwinLiteNetPlus mit Hilfe erklärbarer Künstlicher Intelligenz (XAI) Methoden analysiert werden.
     Auf der nächsten Ebene sollte der aus der Nachverarbeitung resultierende Abstandswert mit Hilfe von Konfidenzschätzungen bewertet werden.
     
@@ -199,4 +200,3 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixD}) zu
         \texttt{final\_confidence} = \\ \frac{\texttt{score\_cam\_confidence} + \texttt{history\_confidence} + \texttt{chessboard\_confidence}}{3}
         \end{align*}
         %Todo: begründung Gewichtung siehe Ergebnisse
-        
