@@ -5,23 +5,23 @@
 \section{Aussagekraft und Grenzen der Konfidenzwerte}
 Die in Kapitel \ref{chapter_conf_eval} beschriebene Auswertung zeigt, dass niedrige Konfidenzwerte mit hohen Fehlern im Vergleich zu Ground-Truth Werten korrespondieren.
  
-Besonders die Einbeziehung der in Kaptitel \ref{history_confidence} beschriebenen Historienbetrachtung hat dazu beigetragen Fehldetektionen durch große Sprünge zu erkennen und damit niedrig bewerten. Lediglich in Fällen, in denen die dichte der Außreißer durch Fehldetektionen zu hoch wird, kann die Historienbetrachtung keinen sinnvollen beitrag mehr für die Konfidenzbetrachtung leisten, da eine geringe Rate von Fehldetektionen vorrausgesetzt wird.
+Besonders die Einbeziehung der in Kaptitel \ref{history_confidence} beschriebenen Historienbetrachtung hat dazu beigetragen Fehldetektionen durch gro{\ss}e Sprünge zu erkennen und damit niedrig bewerten. Lediglich in Fällen, in denen die dichte der Au{\ss}rei{\ss}er durch Fehldetektionen zu hoch wird, kann die Historienbetrachtung keinen sinnvollen beitrag mehr für die Konfidenzbetrachtung leisten, da eine geringe Rate von Fehldetektionen vorrausgesetzt wird.
 
-Bei der Berechnung des ScoreCAM Mittelwerts eines Segments hat sich gezeigt, dass äußere Linien in der Regel stabiler erkannt werden, als die für die Zielgröße relevante dichteste Linie. Dennoch ist die Einbeziehung dieses Scores in die Konfidenzbetrachtung sinnvoll, um einen Eindruck über die Güte der Segmentierung zu bekommen, da äußere Fahrbahnmarkierungen durch die anderen Bestandteile des Konfidenzwerts entsprechend bewertet wurde.
+Bei der Berechnung des ScoreCAM Mittelwerts eines Segments hat sich gezeigt, dass äu{\ss}ere Linien in der Regel stabiler erkannt werden, als die für die Zielgrö{\ss}e relevante dichteste Linie. Dennoch ist die Einbeziehung dieses Scores in die Konfidenzbetrachtung sinnvoll, um einen Eindruck über die Güte der Segmentierung zu bekommen, da äu{\ss}ere Fahrbahnmarkierungen durch die anderen Bestandteile des Konfidenzwerts entsprechend bewertet wurde.
 
-Für die Betrachtung des Konfidenzwerts im relevanten Bereich (Autobahnfahrt ohne Baustellen) zeigt sich insgesamt eine hohe Korrespondenz zwischen niedrigen Konfidenzwerten und hohen absoluten Fehlern,weshalb ein geeignetes Maß für die Glaubwürdigkeit des Abstandswertes gefunden wurde.
+Für die Betrachtung des Konfidenzwerts im relevanten Bereich (Autobahnfahrt ohne Baustellen) zeigt sich insgesamt eine hohe Korrespondenz zwischen niedrigen Konfidenzwerten und hohen absoluten Fehlern,weshalb ein geeignetes Ma{\ss} für die Glaubwürdigkeit des Abstandswertes gefunden wurde.
 
 Nicht nur die Segmentierung, sowie die Nachverarbeitung haben jedoch Verbesserungspotenziale, die im folgenden Kapitel aufgezeigt werden.
 
 \section{Verbesserungspotenziale}
 \label{chapter_verbesserungen}
-    Die Erkennung der gesuchten Zielgröße (Anhang \ref{AppendixE}), sowie die Zuweisung eines geigneten Maßes für die Glaubwürdigkeit des Abstandswertes, haben in den untersuchten Messungen für die relavanten Situationen (Autobahnfahrt ohne Baustelle) bereits zufriedenstellend funktioniert.
+    Die Erkennung der gesuchten Zielgrö{\ss}e (Anhang \ref{AppendixE}), sowie die Zuweisung eines geigneten Ma{\ss}es für die Glaubwürdigkeit des Abstandswertes, haben in den untersuchten Messungen für die relavanten Situationen (Autobahnfahrt ohne Baustelle) bereits zufriedenstellend funktioniert.
     Dennoch wurden die im folgenden beschriebenen Verbesserungspotenziale für die Weiterentwicklung identifiziert.
     \subsection{Historienanalye}
-    Die für den Konfidenzwert einbezogene Größe $history_confidence$ soll unrealistische Sprünge durch einen niedrigen Konfidenzwert abbilden.
+    Die für den Konfidenzwert einbezogene Grö{\ss}e $history_confidence$ soll unrealistische Sprünge durch einen niedrigen Konfidenzwert abbilden.
     In der letzten Umsetzung wurden dazu die Detektionen der letzten Sekunde relativ zum aktuellen Bild betrachtet.
-    Um Außreißer noch zuverlässiger zu erkennen, könnten zusätzlich die zukünftigen Detektion relativ zum aktuellen Bild einbezogen werden.
-    Diese Umsetzung wäre jedoch ausschließlich für eine Nachverarbeitung geeignet. Für eine Echtzeit-Ausgabe wäre die Einbeziehung eines Kallmann-Filters denkbar.
+    Um Au{\ss}rei{\ss}er noch zuverlässiger zu erkennen, könnten zusätzlich die zukünftigen Detektion relativ zum aktuellen Bild einbezogen werden.
+    Diese Umsetzung wäre jedoch ausschlie{\ss}lich für eine Nachverarbeitung geeignet. Für eine Echtzeit-Ausgabe wäre die Einbeziehung eines Kallmann-Filters denkbar.
 
     \subsection{Maskierung nicht benötigter Bildausschnitte}
     Um Fehldetektionen, beispielsweise durch die Spiegelung der Fahrbahnmarkierung an der Karosserie des eigenen Fahrzeugs, weiter zu verringern, könnte während der Kalibrierung ein Maske generiert werden, die bestimmte Bildausschnitte, wie z.B. das eigene Fahrzeug markiert.
@@ -30,7 +30,7 @@ Nicht nur die Segmentierung, sowie die Nachverarbeitung haben jedoch Verbesserun
     %Todo Skizze vorgehen
 
     \subsection{Betrachtung mehrerer Linien / Merging}
-    In der aktuellen Implementierung werden nur die Zielgröße (Anhang \ref{AppendixE}) und ein zugehöriger Konfidenzwert berechnet. 
+    In der aktuellen Implementierung werden nur die Zielgrö{\ss}e (Anhang \ref{AppendixE}) und ein zugehöriger Konfidenzwert berechnet. 
     Eine vollständigere Umsetzung könnte alle erkannten oder plausiblen Fahrbahnmarkierungen berücksichtigen, sodass nicht nur ein Abstandswert zur dichtesten Markierung, sondern mehrere Werte ausgegeben werden.
     So müssten Sprünge nicht zwingend auf eine Fehldetektion zurückgeführt werden, sondern könnten auch einer anderen Fahrbahnmarkierung zugeordnet werden.
     Diese Informationen über weitere Fahrbahnmarkierungen oder dem Ende der Fahrbahn, durch beispielweise einen Grünstreifen, könnten dann in der nachgelagerten KPI-Berechnung mit einbezogen werden.
@@ -45,15 +45,15 @@ Nicht nur die Segmentierung, sowie die Nachverarbeitung haben jedoch Verbesserun
     Dies wäre abgesehen davon Daten labeln zu müssen mit geringem Aufwand erreichbar.
     %Todo hier Ergebnisse
 
-    Noch besser wäre ein Umbau des Modells, sodass nicht nur eine Klasse für Fahrbahnmarkierungen existiert, sondern Information wie der Linientyp (getrichelt/durchgezogen) und die Linienfarbe (gelb/weiß) direkt als entsprechende Klassen implementiert werden.
+    Noch besser wäre ein Umbau des Modells, sodass nicht nur eine Klasse für Fahrbahnmarkierungen existiert, sondern Information wie der Linientyp (getrichelt/durchgezogen) und die Linienfarbe (gelb/wei{\ss}) direkt als entsprechende Klassen implementiert werden.
     % Ein erster Ansatz hierfür wurde bereits geschaffen und zeigt folgende Ergebnisse auf \ref{} %todo anhang
     Nachteil dieser Methode ist, das der Trainingsdatensatz Berkeley DeepDrive kein konvertierungsskript von Labels in Form von json zu Masken zu konvertieren.
-    Entsprechende Masken stehen zwar zu Verfügung, aber eine Rückführung welche Kante zu welchem Segment gehört ist nur schwierig möglich. Damit fehlt die Zuordnung zu entsprechenden Klassen wie z.B. gestrichelte weiße Linie.
+    Entsprechende Masken stehen zwar zu Verfügung, aber eine Rückführung welche Kante zu welchem Segment gehört ist nur schwierig möglich. Damit fehlt die Zuordnung zu entsprechenden Klassen wie z.B. gestrichelte wei{\ss}e Linie.
     Ein Modell das anhand der verfpgbaren eigenen Labels trainiert wurde, erkannte zuverlässig die einzelnen Klassen. Das Umfang des Trainingsdatensatzes müsste aber deutlich erhöht werden, um gute Generalisierung zu erzielen.
 
 
  
-    %Filterung der Messdaten, um außreißer noch besser zu erkennen
+    %Filterung der Messdaten, um au{\ss}rei{\ss}er noch besser zu erkennen
 
     %Todo: autoencoder: Lernen der Featurem anstatt diese zu designen
     

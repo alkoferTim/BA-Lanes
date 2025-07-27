@@ -13,7 +13,7 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
     \subsection{Kalibrierkörper Schachbrettmuster}
     %Warum eignet sich ein Schachbrettmuster gut
     % Welche methoden werden verwendet findChessboardCorners
-    Die Verwendung eines planaren Musters (wie dem Schachbrett) wurde maßgeblich durch Zhengyou Zhang etabliert. 
+    Die Verwendung eines planaren Musters (wie dem Schachbrett) wurde ma{\ss}geblich durch Zhengyou Zhang etabliert. 
     In seiner einflussreichen Arbeit \glqq A Flexible New Technique for Camera Calibration\grqq \cite{Zhang2000} beschreibt Zhang ein Verfahren, das auf der Beobachtung eines zweidimensionalen Kalibriermusters aus verschiedenen Perspektiven basiert. Die Methode benötigt keine präzise bekannte 3D-Geometrie oder mechanisch geführte Bewegungen, sondern nutzt die Homographie zwischen dem Muster und dem Bild zur Schätzung der Kameraparameter. Dies machte die Kalibrierung erstmals praktikabel für den breiten Einsatz, etwa in der Robotik, Augmented Reality oder industriellen Bildverarbeitung.
 
     Anhand der opencv Methode \textit{findChessboardCorners} werden die inneren Ecken des spezifizierten Schachbrettmusters im Bild erkannt.
@@ -32,7 +32,7 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
         \end{bmatrix}
         \]
         Dabei stellen $f_x$ und $f_y$ die Brennweite in Pixeln entlang der x beziehungsweise y Achse und $c_x$ und $c_y$ die Position des optischen Zentrums in Pixeln dar.
-        Die tatsächliche physische Brennweite $f$ kann anhand der physischen Pixelgröße $s$ und einem Skalierungsfaktor $m$ (meist 1, wenn die Einheiten konsitent sind) berechnet werden:
+        Die tatsächliche physische Brennweite $f$ kann anhand der physischen Pixelgrö{\ss}e $s$ und einem Skalierungsfaktor $m$ (meist 1, wenn die Einheiten konsitent sind) berechnet werden:
         \[
             f = \frac{f_x * s_x}{m}
         \]
@@ -63,7 +63,7 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
         % Was stellt die matrix dar
         % Wie können Punkte umgerechnet werden?
     \subsection{Erweiterung}
-        Für die gesuchte Zielgröße (Anhang \ref{AppendixE}) muss zusätzlich nach der Kameramontage ein weiterer Kalibrierungsschritt durchgeführt werden, bei dem die Position des Reifens im Bild manuell gesetzt wird.
+        Für die gesuchte Zielgrö{\ss}e (Anhang \ref{AppendixE}) muss zusätzlich nach der Kameramontage ein weiterer Kalibrierungsschritt durchgeführt werden, bei dem die Position des Reifens im Bild manuell gesetzt wird.
         Dazu wird ein Fadenkreuz auf den untere Radmitte ausgerichtet.
         Diese Bildkoordinaten werden zusammen mit der intrinschen und extrinsischen Kameraparametern in einer json-Datei gespeichert, die für die spätere Abstandsberechnung benötigt wird.
         %Todo Bild Fadenkreuz auf Reifen
@@ -71,7 +71,7 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
         
 % Position des Reifens + Schachbretts merken
 
-%Todo: ersetze alle ß mit \{ss}
+%Todo: ersetze alle {\ss} mit \{ss}
 \section{Auswahl und Beschreibung des Datensatzes}
 
     Zu den bekanntesten Datensätzen für die Fahrspurerkennung zählen die in Kapitel \ref{chapter_datasets} vorgestellten Datensätze CULane \cite{CULanePaper}, TuSimple \cite{tusimple_lane_detection} und BDD100K \cite{bdd100k}, die jeweils unterschiedliche Herausforderungen wie verschiedene Wetterbedingungen, Tageszeiten, Stra{\ss}enarten und Verkehrssituationen abdecken und so die Entwicklung robuster Algorithmen ermöglichen. 
@@ -154,7 +154,7 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
 \subsection{Polynom-Approximation}
     Im Anschluss wurde jedes dieser zusammenhängenden Segmente durch ein Polynom dritten Grades mit Hilfe der Funktion \textit{polyfit()} der Bibliothek numpy approximiert, um später die gesuchte Zielgrö{\ss}e, also den Abstand zwischen Reifenau{\ss}enkante und Innenkante Fahrbahnmarkierung auf Höhe des Rads bestimmen zu können. Besonders bei gestrichelten Linien ist dies notwendig, da die erkannten Segmente, nicht immer auf Höhe das Rads lagen.
     \lstinputlisting[language=Python, caption=Python example]{code/fit_polynomial_to_segments.py} %Todo Code in den Anhang?
-    Au{\ss}erdem wurden Plausibilitäts-Prüfungen dieser Polynome durchgeführt, um Fehldetektionen zu reduzieren. So wurden unter anderem Polynome aussortiert, deren Extrema im Bereich der Bildkoordinaten lagen. Somit wurde nicht nur das Polynom, sondern auch das zu grunde liegende Segment für die Berechnung der Zielgröße (Anhang \ref{AppendixE}) verworfen und nicht weiter verarbeitet. %Todo Beispielbilder für alle Schritte
+    Au{\ss}erdem wurden Plausibilitäts-Prüfungen dieser Polynome durchgeführt, um Fehldetektionen zu reduzieren. So wurden unter anderem Polynome aussortiert, deren Extrema im Bereich der Bildkoordinaten lagen. Somit wurde nicht nur das Polynom, sondern auch das zu grunde liegende Segment für die Berechnung der Zielgrö{\ss}e (Anhang \ref{AppendixE}) verworfen und nicht weiter verarbeitet. %Todo Beispielbilder für alle Schritte
 
 \subsection{Abstandsberechnung}
     Um die gesuchte Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu ermitteln, wurde für jedes Polynom der kürzeste Abstand zum kalibrierten Radkantenpunkt, der während des Kalibrier-Vorgangs manuell zu setzen war, berechnet. Dazu wurden Kandidatenpunkte und der Radkantenpunkt mit Hilfe der kalibrierten Homographie-Matrix in Weltkoordinaten transformiert, um daraus den echten Abstand in Metern zu berechnen. Zunächst wurde vereinfachend lediglich der Abstand zur dichtesten Fahrbahnmarkierungen als Messgrö{\ss}e ausgegeben.
@@ -184,17 +184,17 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
     
     \subsection{Historienbetrachtung}
     \label{history_confidence}
-        Um potenziell unplausible Sprünge in der erkannten Detektion zu identifizieren, wurde ergänzend eine Historienanalyse implementiert. Dabei wurden für den Zeitraum der letzten Sekunde der Mittelwert $\mu$ sowie die Standardabweichung $\sigma$ der erkannten Abstände berechnet. Auf Basis dieser Kenngrößen wurde ein Vertrauenswert für den aktuellen Messwert $x$ bestimmt, welcher angibt, inwieweit dieser mit der bisherigen Verteilung übereinstimmt. Die Berechnung erfolgte unter Verwendung der gaußschen Wahrscheinlichkeitsdichtefunktion:
+        Um potenziell unplausible Sprünge in der erkannten Detektion zu identifizieren, wurde ergänzend eine Historienanalyse implementiert. Dabei wurden für den Zeitraum der letzten Sekunde der Mittelwert $\mu$ sowie die Standardabweichung $\sigma$ der erkannten Abstände berechnet. Auf Basis dieser Kenngrö{\ss}en wurde ein Vertrauenswert für den aktuellen Messwert $x$ bestimmt, welcher angibt, inwieweit dieser mit der bisherigen Verteilung übereinstimmt. Die Berechnung erfolgte unter Verwendung der gau{\ss}schen Wahrscheinlichkeitsdichtefunktion:
         \[
         \text{history\_confidence} = e^{-\frac{(x - \mu)^2}{2\sigma^2}}
         \]
 
-        Ein hoher Wert der resultierenden $history_confidence$ deutet auf eine hohe Konsistenz mit der bisherigen Messhistorie hin, während ein niedriger Wert auf eine potenzielle Anomalie oder fehlerhafte Detektion schließen lässt. 
-        Diese Bewertung dient der Erhöhung der Robustheit des Systems gegenüber Ausreißern und unerwarteten Messwertänderungen, die durch Fehldetektionen verursacht werden könnten.
+        Ein hoher Wert der resultierenden $history_confidence$ deutet auf eine hohe Konsistenz mit der bisherigen Messhistorie hin, während ein niedriger Wert auf eine potenzielle Anomalie oder fehlerhafte Detektion schlie{\ss}en lässt. 
+        Diese Bewertung dient der Erhöhung der Robustheit des Systems gegenüber Ausrei{\ss}ern und unerwarteten Messwertänderungen, die durch Fehldetektionen verursacht werden könnten.
         Beispielweise eine Detektion der Spurmarkierung der nebenliegenden Fahrspur sollte durch die Historienanalyse als fehlerhaft eingeschätzt werden.
     
     \subsection{Verrechnung}
-        Letztendlich sollte die Konfidenzschätzung aus den drei genannten Komponenten verrechnet werden, um anhand einer Gesamtkonfidenz eine Entscheidung über die Glaubwürdigkeit der erkannten Zielgröße (Anhang \ref{AppendixE}) zu treffen. Für die KPI-Berechnung von Assistenzsystemen wie der Spurmittenführung sollten entprechende Toolketten so anhand der Konfidenzschätzung und anderen Plausibilitätsprüfungen verwendbare Manöver bestimmen. 
+        Letztendlich sollte die Konfidenzschätzung aus den drei genannten Komponenten verrechnet werden, um anhand einer Gesamtkonfidenz eine Entscheidung über die Glaubwürdigkeit der erkannten Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu treffen. Für die KPI-Berechnung von Assistenzsystemen wie der Spurmittenführung sollten entprechende Toolketten so anhand der Konfidenzschätzung und anderen Plausibilitätsprüfungen verwendbare Manöver bestimmen. 
         Dazu wurden die drei Komponenten wie dargestllt gleich gewichtet verrechnet:
         \begin{align*}
         \texttt{final\_confidence} = \\ \frac{\texttt{score\_cam\_confidence} + \texttt{history\_confidence} + \texttt{chessboard\_confidence}}{3}
