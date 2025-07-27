@@ -5,7 +5,7 @@
 \section{Trainingsergebnisse} %F1, IoU etc
     %Todo eigenes Modell
 \section{Messungsauswertung}
-    Für die Messungsauswertung wurde zunächst ein Skript erstellt, das für jede Einzelmessung die Ergebnisse der Detektion und falls vorhanden auch die Ground-Truth Siganle in einem Plot darstellt.
+    Für die Messungsauswertung wurde zunächst ein Skript erstellt, das für jede Einzelmessung die Ergebnisse der Detektion und falls vorhanden auch die Ground-Truth Signale in einem Plot darstellt.
     Au{\ss}erdem werden die jeweils zum Zeitstempel passenden Segmentierungen und Polynome vom linken und rechten Video visualisiert.
     Um einen schnellen Überblick der Ergebnisse pro Einzelmessung zu ermöglichen, wurde dazu noch der absolute Fehler für beide Seiten in Form eines Violin-Plots dargestellt.
     Dieser zeigt die Verteilung der absoluten Fehler für beide Seiten (siehe Abb. \ref{fig:Evaluation16}).
@@ -32,7 +32,7 @@
     \label{chapter_problems}
         In einer ersten Messung wurde die Kalibrierung der Kamera in einer anderen Auflösung als alle brauchbaren Einzelmessungen durchgeführt.
         Während der Aufnahme der Messung wurden die Kamera-Einstellungen aufgrund von Performance-Problemen des Messrechners mehrfach geändert.
-        Augrund dieser Änderungen, wäre eine Auswertung nur mit erhöhtem Aufwand möglich gewesen, weshalb darauf verzichtet wurde.
+        Aufgrund dieser Änderungen, wäre eine Auswertung nur mit erhöhtem Aufwand möglich gewesen, weshalb darauf verzichtet wurde.
         Die aufgenommenen Daten konnten jedoch trotzdem für das Training eines eigenen Modells genutzt werden und wurden daher gelabelt. %Todo hier raus dafür in Diskussion->Verbesserung?
 
         In einer zweiten Messung funktionierte die Detektion und Abstandsberechnung bereits gut. Wie in den Abbildungen \ref{fig:Evaluation_M2} und \ref{fig:Evaluation16} zu sehen ist.
