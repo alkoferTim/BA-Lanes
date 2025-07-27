@@ -178,7 +178,7 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
     Zur Bewertung der Genauigkeit der Abstandsberechnung werden mehrere Ansätze kombiniert, um eine möglichst genaue Schätzung abgeben zu können. 
     Dazu wird die Segmentierung des neuronalen Netzes TwinLiteNetPlus mit Hilfe erklärbarer Künstlicher Intelligenz (XAI) Methoden analysiert.
 
-    Auf der nächsten Ebene wird dann zusätzlich die anschließende in Kapitel \ref{chapter_postprocessing} beschriebene Nachverarbeitung der Segmentierung bewertet werden.
+    Auf der nächsten Ebene wird dann zusätzlich die anschlie{\ss}ende in Kapitel \ref{chapter_postprocessing} beschriebene Nachverarbeitung der Segmentierung bewertet werden.
     
     Dem am Ende resultierenden Abstandswert sollte dann durch die Verrechnung der einzelnen im folgenden beschriebenen Bestandteile eine Konfidenzschätzung im Bereich 0 (schlecht) bis 1 (gut) zugeordnet werden.
     
@@ -193,10 +193,10 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
         \]
     
     \subsection{Abstandsbewertung}
-        Der Berechnung der Zielgröße liegt eine vorangegangene Kalibrierung in Kapitel \ref{chapter_calibration} mittels Schachbrett-Muster zu Grunde. 
+        Der Berechnung der Zielgrö{\ss}e liegt eine vorangegangene Kalibrierung in Kapitel \ref{chapter_calibration} mittels Schachbrett-Muster zu Grunde. 
         Um die Konfidenz des berechneten Abstandswerts weiter zu präzisieren, wird die Lage eines Segments zu dem Bereich in dem das Schachbrettmuster für die Kalibrierung lag einbezogen werden. 
         Dadurch sollten die durch die Polynom-Approximation entstehenden Fehler berücksichtigt werden. Erkannte Segmente, die besonders nah oder im Bereich des Schachbrettmusters lagen, lie{\ss}en einen geringen Fehler des Polynoms im betrachteten Bereich vermuten und sollten daher eine hohe Konfidenz erhalten.
-        Da die die absoluten Abstände anhand der Kalibrierung für weit entfernte Bereiche sehr ungenau war, wurde der Abstand jedes Segment-Pixels $x_i$ in Pixeln zur Lage des Schachbrettmusters in Relation zur Bildgröße $image\_diagonal$ berechnet. Dieser Abstand wird in Abb. \ref{fig:chessboard_dist} durch violette Pfeile symbolisiert und für den Konfidenzwert von 1 subtrahiert, um kleinen Abständen große Konfidenz und umgekehrt zuzuweisen.
+        Da die die absoluten Abstände anhand der Kalibrierung für weit entfernte Bereiche sehr ungenau war, wurde der Abstand jedes Segment-Pixels $x_i$ in Pixeln zur Lage des Schachbrettmusters in Relation zur Bildgrö{\ss}e $image\_diagonal$ berechnet. Dieser Abstand wird in Abb. \ref{fig:chessboard_dist} durch violette Pfeile symbolisiert und für den Konfidenzwert von 1 subtrahiert, um kleinen Abständen gro{\ss}e Konfidenz und umgekehrt zuzuweisen.
         \[
         chessboard\_confidence_i = 1 - (x_i /  image\_diagonal)
         \]
