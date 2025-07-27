@@ -6,6 +6,7 @@
 Die vorliegende Arbeit hat sich mit der Frage beschäftigt, wie XAI-Ansätze für CNNs zur Spurdetektion eingesetzt werden können, um die Zuverlässigkeit der Ergebnisse abzuschätzen.
 
 Die vorangegangen Kapitel haben dazu aufgezeigt, dass sich die ScoreCAM besser als die beschriebene GradCAM Heatmap für die Bewertung der Segmentierung eignet, da sie robustere Ergebnisse liefert.
+
 Die in dieser Arbeit verwendete seitlich Kameraperspektive weicht jedoch von dem verwendeten Trainingsdatensatz (Berkeley Deepdrive: zentrale Kameraperspektive) des TwinLiteNetPlus ab.
 Dadurch werden die im Bildverhältnis kleineren weiter entfernten Fahrbahnmarkierungen besser erkannt, als die für die Zielgrö{\ss}e relevante dichteste Fahrspurmarkierung.
 Eine reine Betrachtung der ScoreCAM Heatmap ist daher nicht ausreichend, um die Zuverlässigkeit der Ergebnisse sinnvoll abschätzen zu können.
@@ -19,7 +20,7 @@ Der zum Ende der Arbeit entwicklete Konfidenzwert bezieht somit neben der ScoreC
     Dies ist wichtig, um die Zuverlässigkeit von Fahrerassistenzsystemen zu erhöhen und die Sicherheit auf der Stra{\ss}e, durch eine geringe Anzahl von Fehleingriffen, zu verbessern.
 
 \section{Zukünftige Erweiterungen}
-    Neben den in Kapitel \ref{chapter_verbesserungen} aufgezeigten Ansätze zur Verbesserung des Abstandswertes und dem dazugeörigen Konfidenzwert, werden im folgenden zukünfig mögliche Erweiterungen aufgezeigt.
+    Neben den in Kapitel \ref{chapter_verbesserungen} aufgezeigten Ansätzen zur Verbesserung des Abstandswertes und dem dazugeörigen Konfidenzwert, werden im folgenden zukünfig mögliche Erweiterungen aufgezeigt.
 
     \subsection{Integartion GUI}
     Um die Nutzung der Lane-Detection zu erleichtern, soll in nächsten Schritt eine Graphische Oberfläche (GUI) entwickelt werden, die die Möglichkeit bietet, Messungen aufzuzeichnen und selbige zu auszuwerten. Diese Oberfläche wird innerhalb einer bestehenden GUI zu Aufnahme von Fahrerassistenzmessungen integriert.
