@@ -3,10 +3,35 @@
 \label{FazitUndAusblick}
 
 \section{Beantwortung der Forschungsfrage}
+Die vorliegende Arbeit hat sich mit der Frage beschäftigt, wie XAI-Ansätze für CNNs zur Spurdetektion eingesetzt werden können, um die Zuverlässigkeit der Ergebnisse abzuschätzen.
+
+Die vorangegangen Kapitel haben dazu aufgezeigt, dass sich die ScoreCAM besser als die beschriebene GradCAM Heatmap für die Bewertung der Segmentierung eignet, da sie robustere Ergebnisse liefert.
+Die in dieser Arbeit verwendete seitlich Kameraperspektive weicht jedoch von dem verwendeten Trainingsdatensatz (Berkeley Deepdrive: zentrale Kameraperspektive) des TwinLiteNetPlus ab.
+Dadurch werden die im Bildverhältnis kleineren weiter entfernten Fahrbahnmarkierungen besser erkannt, als die für die Zielgröße relevante dichteste Fahrspurmarkierung.
+Eine reine Betrachtung der ScoreCAM Heatmap ist daher nicht ausreichend, um die Zuverlässigkeit der Ergebnisse sinnvoll abschätzen zu können.
+
+Der zum Ende der Arbeit entwicklete Konfidenzwert bezieht somit neben der ScoreCAM Heatmap zusätzlich ein Entfernungsmaß für das erkannte Segment, sowie eine plausibiliserende Historienanalyse wie in Kapitel \ref{chapter_confidence} näher beschrieben mit ein.
+
 \section{Bedeutung von XAI für die Fahrspurerkennung}
+    Der Einsatz von Heatmaps eignet sich besonders für die Entwicklung eines neuronalen Netzes, da sie die verwendeten Features in der Segmentierung transparent machen. Dies ermöglicht eine gute Fehleranalyse und die Identifizierung von Schwachstellen im Netzwerk.
+
+    Für ein ausreichend ausgereiftes Netzwerk lassen sich diese Heatmaps dann wie in der vorliegenden Arbeit für die Konfidenzabschätzung nutzen, die die Glaubwürdigkeit einer Information abzuschätzen.
+    Dies ist wichtig, um die Zuverlässigkeit von Fahrerassistenzsystemen zu erhöhen und die Sicherheit auf der Straße, durch eine geringe Anzahl von Fehleingriffen, zu verbessern.
+
 \section{Zukünftige Erweiterungen}
+    Neben den in Kapitel \ref{chapter_verbesserungen} aufgezeigten Ansätze zur Verbesserung des Abstandswertes und dem dazugeörigen Konfidenzwert, werden im folgenden zukünfig mögliche Erweiterungen aufgezeigt.
+
     \subsection{Integartion GUI}
-    \subsection{Road-Edge}
+    Um die Nutzung der Lane-Detection zu erleichtern, soll in nächsten Schritt eine Graphische Oberfläche (GUI) entwickelt werden, die die Möglichkeit bietet, Messungen aufzuzeichnen und selbige zu auszuwerten. Diese Oberfläche wird innerhalb einer bestehenden GUI zu Aufnahme von Fahrerassistenzmessungen integriert.
+
+
     \subsection{Verkehrszeichen}
+    Während der Auswertung der Messungen ist aufgefallen, dass aus der gewählten Perspektive die meisten Verkehrszeichen gut zu erkennen sind. Daher ist eine automatisierte Erkennung von Verkehrszeichen eine weitere mögliche Erweiterung, um Fahrasistenzsysteme volständiger bewerten zu können.
+
     \subsection{andere Verkehrsteilnehmer}
-    \subsection{Echtzeit-Detektion}
+    Neben der Fahrbahnmarkierungen, lassen sich ebenfalls vorausfahrende Fahrzeuge auf den aufgenommen Messungsvideos gut erkennen. Eine automatisierte Kategorisierung (PKW, LKW, Zweirad) und Abstandsschätzung von vorausfahrenden Fahrzeugen wäre daher möglich.
+
+    % \subsection{Echtzeit-Detektion} % Todo raus oder vlt
+\section{Fazit}
+Zusammenfassend lässt sich sagen, dass die Erkennung der Fahrbahnmarkierungen, sowie die Konfidenzschätzung in den wichtigsten Situationen (Autobahnfahrt ohne Baustellen) bereits zuverlässig funktioniert. Wenig auftretende Außreißer werden erkannt und entsprechend bewertet.
+Die notwendigen Verbesserungspotenziale und mögliche Erweiterungen wurden im vorherigen Kapitel aufgezeigt lassen die Nutzung des System in weiteren Situationen realistisch erscheinen.
