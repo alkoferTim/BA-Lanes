@@ -16,10 +16,8 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
     Die Verwendung eines planaren Musters (wie dem Schachbrett) wurde ma{\ss}geblich durch Zhengyou Zhang etabliert. 
     In seiner einflussreichen Arbeit \glqq A Flexible New Technique for Camera Calibration\grqq \cite{Zhang2000} beschreibt Zhang ein Verfahren, das auf der Beobachtung eines zweidimensionalen Kalibriermusters aus verschiedenen Perspektiven basiert. Die Methode benötigt keine präzise bekannte 3D-Geometrie oder mechanisch geführte Bewegungen, sondern nutzt die Homographie zwischen dem Muster und dem Bild zur Schätzung der Kameraparameter. Dies machte die Kalibrierung erstmals praktikabel für den breiten Einsatz, etwa in der Robotik, Augmented Reality oder industriellen Bildverarbeitung.
 
-    Anhand der opencv Methode \textit{findChessboardCorners} werden die inneren Ecken des spezifizierten Schachbrettmusters im Bild erkannt.
+    Anhand der opencv Methode \textit{findChessboardCorners} werden die inneren Ecken des spezifizierten Schachbrettmusters im Bild wie in Abbildung \ref{fig:tire_position} gezeigt erkannt.
     Diese Ecken dienen als 2D-Bildpunkte, denen bekannte 3D-Weltpunkte auf der Kalibrierfläche zugeordnet werden können - eine Voraussetzung für die Berechnung der Kameraparameter.
-    %Todo: Bild einfügen erkannte Ecken
-
 
     \subsection{Intrinsik}
         Die intrinsischen Kameraparameter Brennweite $f$ und Lage des optischen Zentrums $c$ werden implizit durch die Kameramatrix K repräsentiert.
@@ -169,8 +167,6 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
 
 \subsection{Abstandsberechnung}
     Um die gesuchte Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu ermitteln, wurde für jedes Polynom der kürzeste Abstand zum kalibrierten Radkantenpunkt, der während des Kalibrier-Vorgangs manuell zu setzen war, berechnet. Dazu wurden Kandidatenpunkte und der Radkantenpunkt mit Hilfe der kalibrierten Homographie-Matrix in Weltkoordinaten transformiert, um daraus den echten Abstand in Metern zu berechnen. Zunächst wurde vereinfachend lediglich der Abstand zur dichtesten Fahrbahnmarkierungen als Messgrö{\ss}e ausgegeben.
-    %Todo beschreibe vorgehen: Kalibrierung/Aufnahme Messung/ Berechnung
-
 
 %Filterung in Kapitel Segmente und Polynome oder eigenes kapitel?
 \section{Auswahl und Beschreibung der Konfidenzschätzung}
