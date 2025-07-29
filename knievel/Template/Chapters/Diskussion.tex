@@ -48,7 +48,7 @@ Nicht nur die Segmentierung selbst, sondern auch die Nachverarbeitung haben jedo
 
     Noch besser wäre ein Umbau des Modells, sodass nicht nur eine Klasse für Fahrbahnmarkierungen existiert, sondern Information wie der Linientyp (getrichelt/durchgezogen) und die Linienfarbe (gelb/wei{\ss}) direkt als entsprechende Klassen implementiert werden.
     % Ein erster Ansatz hierfür wurde bereits geschaffen und zeigt folgende Ergebnisse auf \ref{} %todo anhang
-    Nachteil dieser Methode ist, das der Trainingsdatensatz Berkeley DeepDrive kein konvertierungsskript von Labels in Form von json-Dateien zu Masken zu konvertieren.
+    Nachteil dieser Methode ist, das der Trainingsdatensatz Berkeley DeepDrive kein Konvertierungsskript von Labels in Form von json-Dateien zu Masken zu konvertieren.
     Entsprechende Masken stehen zwar zu Verfügung, aber eine Rückführung welche Kante zu welchem Segment gehört ist nur schwierig möglich. Damit fehlt die Zuordnung zu entsprechenden Klassen wie z.B. gestrichelte wei{\ss}e Linie.
     Ein Modell das anhand der verfügbaren eigenen Labels trainiert wurde, erkannte zuverlässig die einzelnen Klassen. Das Umfang des Trainingsdatensatzes müsste aber deutlich erhöht werden, um gute Generalisierung zu erzielen. % Todo erste Ergebnisse
 

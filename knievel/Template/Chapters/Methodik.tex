@@ -189,12 +189,14 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
         \]
     
     \subsection{Abstandsbewertung}
-        Der Berechnung der Zielgrö{\ss}e liegt eine vorangegangene Kalibrierung in Kapitel \ref{chapter_calibration} mittels Schachbrett-Muster zu Grunde. 
-        Um die Konfidenz des berechneten Abstandswerts weiter zu präzisieren, wird die Lage eines Segments zu dem Bereich in dem das Schachbrettmuster für die Kalibrierung lag einbezogen werden. 
-        Dadurch sollten die durch die Polynom-Approximation entstehenden Fehler berücksichtigt werden. Erkannte Segmente, die besonders nah oder im Bereich des Schachbrettmusters lagen, lie{\ss}en einen geringen Fehler des Polynoms im betrachteten Bereich vermuten und sollten daher eine hohe Konfidenz erhalten.
-        Da die die absoluten Abstände anhand der Kalibrierung für weit entfernte Bereiche sehr ungenau war, wurde der Abstand jedes Segment-Pixels $x_i$ in Pixeln zur Lage des Schachbrettmusters in Relation zur Bildgrö{\ss}e $image\_diagonal$ berechnet. Dieser Abstand wird in Abb. \ref{fig:chessboard_dist} durch violette Pfeile symbolisiert und für den Konfidenzwert von 1 subtrahiert, um kleinen Abständen gro{\ss}e Konfidenz und umgekehrt zuzuweisen.
+        Der Berechnung der Zielgrö{\ss}e liegt die in Kapitel \ref{chapter_calibration} beschriebene Kalibrierung mittels Schachbrett-Muster zu Grunde. 
+        Um die Konfidenz des berechneten Abstandswerts weiter zu präzisieren, wird die Lage eines Segments zu dem Bereich in dem das Schachbrettmuster für die Kalibrierung lag einbezogen. 
+        Dadurch sollten die durch die Polynom-Approximation entstehenden Fehler berücksichtigt werden.
+        
+        Erkannte Segmente, die besonders nah oder im Bereich des Schachbrettmusters lagen, lie{\ss}en einen geringen Fehler des Polynoms im betrachteten Bereich vermuten und sollten daher eine hohe Konfidenz erhalten.
+        Da die die absoluten Abstände anhand der Kalibrierung für weit entfernte Bereiche sehr ungenau war, wurde der Abstand jedes Segment-Pixels $pixel\_distance_i$ in Pixeln zum Rand des Schachbrettmusters berechnet. Dieser Abstand wird in Abb. \ref{fig:chessboard_dist} durch violette Pfeile symbolisiert und für den Konfidenzwert in Relation zur Bildgrö{\ss}e $image\_size$ normiert und von 1 subtrahiert, um kleinen Abständen gro{\ss}e Konfidenz und umgekehrt zuzuweisen. Segment-Pixel, die innerhalb des Schachbrettmusters lagen, wurde der Abstand auf 0 und damit die Konfidenz auf 1 zugeordnet.
         \[
-        chessboard\_confidence_i = 1 - (x_i /  image\_diagonal)
+        chessboard\_confidence_i = 1 - \sqrt{\left(\frac{pixel\_distance_{ix}}{image\_size_x}\right)^2 + \left(\frac{pixel\_distance_{iy}}{image\_size_y}\right)^2}
         \]
         Die durchschnittliche Entfernung eines Segments zum Schachbrettmuster wurde als Konfidenzschätzung verwendet. %Todo: erkläre mit Bild wie d berechnet wird
         \begin{figure}[h]
@@ -216,7 +218,7 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
         \text{history\_confidence} = e^{-\frac{(x - \mu)^2}{2\sigma^2}}
         \]
 
-        Ein hoher Wert der resultierenden $history\_confidence$ deutet auf eine hohe Konsistenz mit der bisherigen Messhistorie hin, während ein niedriger Wert auf eine potenzielle Anomalie oder fehlerhafte Detektion schlie{\ss}en lässt. 
+        Ein hoher Wert der resultierenden $history\_confidence$ deutet auf eine hohe Konsistenz mit der bisherigen Messhistorie hin, während ein niedriger Wert auf eine potenzielle Anomalie oder fehlerhafte Detektion schlie{\ss}en lässt, wie in Kapitel \ref{chapter_conf_eval} genauer erläutert wird.
         Diese Bewertung dient der Erhöhung der Robustheit des Systems gegenüber Ausrei{\ss}ern und unerwarteten Messwertänderungen, die durch Fehldetektionen verursacht werden könnten.
         Beispielweise eine Detektion der Spurmarkierung der nebenliegenden Fahrspur sollte durch die Historienanalyse als fehlerhaft eingeschätzt werden.
     

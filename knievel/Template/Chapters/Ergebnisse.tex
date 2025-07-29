@@ -7,8 +7,8 @@
 \section{Messungsauswertung}
     Für die Messungsauswertung wurde zunächst ein Skript erstellt, das für jede Einzelmessung die Ergebnisse der Detektion und falls vorhanden auch die Ground-Truth Signale in einem Plot darstellt.
     Au{\ss}erdem werden die jeweils zum Zeitstempel passenden Segmentierungen und Polynome vom linken und rechten Video visualisiert.
-    Um einen schnellen Überblick der Ergebnisse pro Einzelmessung zu ermöglichen, wurde dazu noch der absolute Fehler für beide Seiten in Form eines Violin-Plots dargestellt.
-    Dieser zeigt die Verteilung der absoluten Fehler für beide Seiten (siehe Abb. \ref{fig:Evaluation16}).
+    Um einen schnellen Überblick der Ergebnisse pro Einzelmessung zu ermöglichen, wurde dazu noch der Fehler in Metern für beide Seiten in Form eines Violin-Plots dargestellt.
+    Dieser zeigt die Verteilung der Fehler für beide Seiten (siehe Abb. \ref{fig:Evaluation16}).
     \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Figures/Auswertung_16_ok.png}
@@ -16,9 +16,9 @@
     \label{fig:Evaluation16}
     \end{figure}
 
-    Um einen besseren Gesamtüberblick zu erhalten, wurden zusätzlich alle Einzelnmessung aneinandergereiht und mit den entsprechenden Indices markiert.
-    Die Folgende Abbildung \ref{fig:Evaluation_M2} zeigt somit die Auswertung der gesamten zweiten Messung, wobei die Einzelmessungen mit ihrer Kategorie (Autobahn/Landstra{\ss}e/Baustelle) hervorgehoben sind.
-    Die Nummerierung beginnen bei neun, da die ersten acht Einzelmessungen für die Kamerakalibrierung genutzt wurden.
+    Um einen besseren Gesamtüberblick zu erhalten, wurden zusätzlich alle Einzelmessung aneinandergereiht und mit den entsprechenden Indices markiert.
+    Die folgende Abbildung \ref{fig:Evaluation_M2} zeigt somit die Auswertung der gesamten zweiten Messung, wobei die Einzelmessungen mit ihrer Kategorie (Autobahn/Landstra{\ss}e/Baustelle) hervorgehoben sind.
+    Die Nummerierung beginnt bei neun, da die ersten acht Einzelmessungen für die Kamerakalibrierung genutzt wurden.
 
     \begin{figure}[H] 
     \centering
@@ -56,13 +56,13 @@
             \end{figure}
         
         \subsubsection{Fehldetektionen Autobahnauf-/ausfahrt}
-            Ähnlich wie die Fehldetektionen in der Baustelle traten auch vermehrt Fehldetektionen während der Auf- und Abfahrt von der Autobahn auf wie in Abb. \ref{fig:M2_T16_Right_2375_ausfahrt} dargestellt ist.
-            Die Ursache für die Fehldetektionen liegt hier in der Fehlenden Erkennung der eigentlich gültigen rechten Markierung.
-            Der einzig verfügbare Abstand der rechten Kamera wird somit zu linken Spurmarkierung berechnet.
+            Ähnlich wie die Fehldetektionen in der Baustelle traten auch vermehrt Fehldetektionen während der Auf- und Abfahrt von der Autobahn auf, wie in Abb. \ref{fig:M2_T16_Right_2375_ausfahrt} dargestellt ist.
+            Die Ursache für die Fehldetektionen liegt hier in der fehlenden Erkennung der eigentlich gültigen rechten Markierung.
+            Der einzig verfügbare Abstand der rechten Kamera wird somit zur linken Spurmarkierung berechnet.
             \begin{figure}[H] % Use the 'H' specifier to place it exactly here
             \centering
             \includegraphics[width=\textwidth]{Figures/M2_T16_Right_2375_ausfahrt.jpg}
-            \caption[Fehrldetektionen auf Autobahnabfahrt]{Fehrldetektionen auf Autobahnabfahrt}
+            \caption[Fehldetektionen auf Autobahnabfahrt]{Fehldetektionen auf Autobahnabfahrt}
             \label{fig:M2_T16_Right_2375_ausfahrt}
             \end{figure}
     
@@ -76,13 +76,13 @@
         \label{fig:Evaluation_M2_reduced}
         \end{figure}
 
-        Zu Erkennen ist nun ebenfalls eine leichte Abweichung vom absoluten Fehler 0m auf beiden Seiten nach au{\ss}en. Diese ist dadurch zu erklären, dass meist nicht exakt die Innenkante, sondern eher die Mitte der Fahrbahnmarkierungen zu Abstandsberechnung verwendet wurde wie beispielsweise in Abbildung \ref{fig:Evaluation16} zu erknnen ist.
-        Unter Vorrausetzung einer Breite von 0,12 bis 0,15m der  Fahrbahnmarkierungen erscheinen die Abweichungen nach au{\ss}en der Grö{\ss}enordnung von 0,05m deshalb plausibel.
+        Zu Erkennen ist nun ebenfalls eine leichte Abweichung vom absoluten Fehler 0m auf beiden Seiten nach au{\ss}en. Diese ist dadurch zu erklären, dass meist nicht exakt die Innenkante, sondern eher die Mitte der Fahrbahnmarkierungen zur Abstandsberechnung verwendet wurde, wie beispielsweise in Abbildung \ref{fig:Evaluation16} zu erkennen ist.
+        Unter Voraussetzung einer Breite von 0,12 bis 0,15m der  Fahrbahnmarkierungen, erscheinen die Abweichungen der Grö{\ss}enordnung von 0,05m über dem Ground-Truth-Abstand deshalb plausibel.
 
 
 \section{Konfidenz-Auswertung}
 \label{chapter_conf_eval}
-    In Anhang \ref{AppendixF} sind die ermittelten Zwischengrö{\ss}en, sowie der zusammengesetzte Konfidenzwert für die Gesamtmessung 2 nach Seiten aufgeteilt dargestellt.
+    In Anhang \ref{AppendixF} sind die ermittelten Zwischengrö{\ss}en, sowie der zusammengesetzte Konfidenzwert für die Gesamtmessung 2, nach Seiten aufgeteilt, dargestellt.
     Dabei fällt auf, dass die Historienbetrachtung $history\_confidence$ (in hell blau dargestellt) im Schnitt am höchsten knapp unter 1 liegt. Trotzdem werden die Au{\ss}rei{\ss}er weitestgehend stabil erkannt was durch einen niedrigen Wert nahe 0 zu erkennen ist.
     Lediglich, wenn die Dichte der Au{\ss}rei{\ss}er wie in Einzelmessung 12 für die rechte Seite (Abbildung \ref{fig:M2_T12_conf_right}) zu hoch ist, können nicht mehr alle Au{\ss}rei{\ss}er-werte erkannt werden.
 
@@ -93,13 +93,13 @@
     \label{fig:M2_T12_conf_right}
     \end{figure}
 
-    Da Au{\ss}rei{\ss}er wie in Kapitel \ref{chapter_problems} durch weiter entfernte Linien enstehen, werden diese meist zusätzlich durch die $chessboard\_confidence$ (in grün dargestellt) erkannt und durch einen niedrigen Wert etwa um 0,5 repräsentiert. Au{\ss}erhalb der Au{\ss}rei{\ss}er befindet sich dieser Einzelwert im bereich um etwa 0,9.
+    Da Au{\ss}rei{\ss}er wie in Kapitel \ref{chapter_problems} durch weiter entfernte Linien enstehen, werden diese meist zusätzlich durch die $chessboard\_confidence$ (in grün dargestellt) erkannt und durch einen niedrigen Wert etwa um 0,5 repräsentiert. Au{\ss}erhalb der Au{\ss}rei{\ss}er befindet sich dieser Einzelwert im Bereich um etwa 0,9.
 
-    Der dritte Bestandteil $score\_cam\_confidence$ der Konfidenzbetrachtung liegt zum grö{\ss}ten Teil im Bereich 0,7 bis 0,9. Hier wurde während der Auswertung festgestellt, dass Fehldetektionen häufig hohe Werte scores aufweisen. 
-    Bei näherer Untersuchung fiel auf, dass die dichtese Linie zum Rad häufig schlechter oder gar nicht erkannt wurde, sodass der Abstand zur nächsten Linie, berechnet und als Distanz ausgegeben wurde.
-    Dieses Phänomen trat häufig auf und wurde auf abweichende Kamera-Perspektive im Vergleich zum verwendeten Trainingsdatensatz BDD100K \ref{chapter_bdd100k} zurückgeführt. 
+    Der dritte Bestandteil $score\_cam\_confidence$ der Konfidenzbetrachtung liegt zum grö{\ss}ten Teil im Bereich 0,7 bis 0,9. Hier wurde während der Auswertung festgestellt, dass Fehldetektionen häufig hohe scores aufweisen. 
+    Bei näherer Untersuchung fiel auf, dass die dichteste Linie zum Rad häufig schlechter oder gar nicht erkannt wurde, sodass der Abstand zur nächsten Linie, berechnet und als Distanz ausgegeben wurde.
+    Dieses Phänomen trat häufig auf und wurde auf die abweichende Kamera-Perspektive im Vergleich zum verwendeten Trainingsdatensatz BDD100K \ref{chapter_bdd100k} zurückgeführt. 
     Die dichteste Linie ist in der Regel deutlich grö{\ss}er im Verhältnis zur Bildgrö{\ss}e, als im Trainingsdatensatz und wurde daher vom vortrainierten Modell des TwinLiteNetPlus schlechter erkannt. %Todo zeige Bilder Training und echte
-    In Anhang \ref{AppendixC} ist dargestellt, dass die linke äu{\ss}ere Fahrbahnmarkierung als Segment 0 (Abb.\ref{fig:M2_T16_F28_s0}) mit einem Mittelwert von etwa 96 \% deutlich stabiler detektiert wurde als die dichtere gestrichelte Markierung. Diese ist nicht nur in mehrere kleine fragmente (Abb. \ref{fig:M2_T16_F28_s1} - \ref{fig:M2_T16_F28_s8}) aufgesplittet, sondern im Mittel auch merklich schlechter mit etwa 70\% bewertet.
+    In Anhang \ref{AppendixC} ist dargestellt, dass die linke äu{\ss}ere Fahrbahnmarkierung als Segment 0 (Abb.\ref{fig:M2_T16_F28_s0}) mit einem Mittelwert von etwa 96 \% deutlich stabiler detektiert wurde als die dichtere gestrichelte Markierung. Diese ist nicht nur in mehrere kleine Fragmente (Abb. \ref{fig:M2_T16_F28_s1} - \ref{fig:M2_T16_F28_s8}) aufgesplittet, sondern im Mittel auch merklich schlechter mit etwa 70\% bewertet.
     Im Beispiel-Bild \ref{fig:M2_T16_F28_result} wurde die dichtere Linie jedoch gerade noch gut genut detektiert, sodass ein Abstandswert zur korrekten Linie berechnet wurde.
 
     Alle beobachteten Phänome spiegelten sich entsprechend der Skalierung auch im finalen Konfidenzwert wider, der in den Auswertungen in braun (links) und pink (rechts) dargestellt ist.
