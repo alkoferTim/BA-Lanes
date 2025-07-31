@@ -7,6 +7,7 @@ Die Fahrspurerkennung ist ein zentrales Thema für autonome Fahrzeuge und Fahrer
 
 
 \section{Klassische Methoden}
+\label{chapter_klassische_methoden}
     Die Hough-Transformation ist eine bewährte Methode zur Erkennung von Fahrspuren, da sie geometrische Strukturen wie Linien in Bildern zuverlässig identifizieren kann. Sie wird genutzt, um Fahrbahnmarkierungen als Linien im Bild zu erkennen.
 
     \subsection{Vorverarbeitung}
@@ -14,7 +15,7 @@ Die Fahrspurerkennung ist ein zentrales Thema für autonome Fahrzeuge und Fahrer
 
     \subsection{Hough-Transformation}
         Die Hough-Transformation wurde von ihrem Erfinder Paul V.C. Hough 1962 als \textit{Method and Means for Recognizing Complex Patterns} patentiert \cite{HoughPatent}. Sie ist ein globales Verfahren zur Erkennung von parametrisierbaren, geometrischen Figuren wie Geraden oder Kreisen in einem binären Gradientenbild, also einem Schwarz-Wei{\ss}-Bild nach einer Kantenerkennung.
-        Um Geraden zu erkennen, werden die Kantenpunkte in den Hough-Parameterraum (meist in der Hesseschen Normalform durch Winkel und Abstand) abgebildet. Linien, die viele Kantenpunkte enthalten, erscheinen als lokale Maxima im Hough-Raum und werden als Linien ausgegeben.
+        Um Geraden zu erkennen, werden die Kantenpunkte in den Hough-Parameterraum (meist in der Hesseschen Normalform durch Winkel und Abstand) abgebildet. Bereiche, die viele Kantenpunkte enthalten, erscheinen als lokale Maxima im Hough-Raum und werden als Linien ausgegeben.
 
     \subsection{Linienerkennung}
         Die detektierten Linien werden zurück ins Bild transformiert und als Fahrspuren markiert. 

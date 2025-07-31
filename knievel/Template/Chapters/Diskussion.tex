@@ -5,7 +5,7 @@
 \section{Aussagekraft und Grenzen der Konfidenzwerte}
 Die in Kapitel \ref{chapter_conf_eval} beschriebene Auswertung zeigt, dass niedrige Konfidenzwerte mit hohen Fehlern im Vergleich zu Ground-Truth Werten korrespondieren.
  
-Besonders die Einbeziehung der in Kaptitel \ref{history_confidence} beschriebenen Historienbetrachtung hat dazu beigetragen Fehldetektionen durch gro{\ss}e Sprünge zu erkennen und damit niedrig bewerten. Lediglich in Fällen, in denen die Dichte der Au{\ss}rei{\ss}er durch Fehldetektionen zu hoch wird, kann die Historienbetrachtung keinen sinnvollen beitrag mehr für die Konfidenzbetrachtung leisten, da eine geringe Rate von Fehldetektionen vorrausgesetzt wird.
+Besonders die Einbeziehung der in Kapitel \ref{history_confidence} beschriebenen Historienbetrachtung hat dazu beigetragen Fehldetektionen durch gro{\ss}e Sprünge zu erkennen und damit niedrig bewerten. Lediglich in Fällen, in denen die Dichte der Ausrei{\ss}er durch Fehldetektionen zu hoch wird, kann die Historienbetrachtung keinen sinnvollen Beitrag mehr für die Konfidenzbetrachtung leisten, da eine geringe Rate von Fehldetektionen vorausgesetzt wird.
 
 Bei der Berechnung des ScoreCAM Mittelwerts eines Segments hat sich gezeigt, dass äu{\ss}ere Linien in der Regel stabiler erkannt werden, als die für die Zielgrö{\ss}e relevante dichteste Linie. Dennoch ist die Einbeziehung dieses Scores in die Konfidenzbetrachtung sinnvoll, um einen Eindruck über die Güte der Segmentierung zu bekommen, da äu{\ss}ere Fahrbahnmarkierungen durch die anderen Bestandteile des Konfidenzwerts entsprechend bewertet wurden.
 
@@ -15,16 +15,16 @@ Nicht nur die Segmentierung selbst, sondern auch die Nachverarbeitung haben jedo
 
 \section{Verbesserungspotenziale}
 \label{chapter_verbesserungen}
-    Die Erkennung der gesuchten Zielgrö{\ss}e (Anhang \ref{AppendixE}), sowie die Zuweisung eines geigneten Ma{\ss}es für die Glaubwürdigkeit des Abstandswertes, haben in den untersuchten Messungen für die relavanten Situationen (Autobahnfahrt ohne Baustelle) bereits zufriedenstellend funktioniert.
+    Die Erkennung der gesuchten Zielgrö{\ss}e (Anhang \ref{AppendixE}), sowie die Zuweisung eines geeigneten Ma{\ss}es für die Glaubwürdigkeit des Abstandswertes, haben in den untersuchten Messungen für die relevanten Situationen (Autobahnfahrt ohne Baustelle) bereits zufriedenstellend funktioniert.
     Dennoch wurden die im folgenden beschriebenen Verbesserungspotenziale für die Weiterentwicklung identifiziert.
     \subsection{Historienanalye}
     Die für den Konfidenzwert einbezogene Grö{\ss}e $history\_confidence$ soll unrealistische Sprünge durch einen niedrigen Konfidenzwert abbilden.
     In der letzten Umsetzung wurden dazu die Detektionen der letzten Sekunde relativ zum aktuellen Bild betrachtet.
-    Um Au{\ss}rei{\ss}er noch zuverlässiger zu erkennen, könnten zusätzlich die zukünftigen Detektion relativ zum aktuellen Bild einbezogen werden.
+    Um Ausrei{\ss}er noch zuverlässiger zu erkennen, könnten zusätzlich die zukünftigen Detektion relativ zum aktuellen Bild einbezogen werden.
     Diese Umsetzung wäre jedoch ausschlie{\ss}lich für eine Nachverarbeitung geeignet. Für eine Echtzeit-Ausgabe wäre die Einbeziehung eines Kallmann-Filters denkbar.
 
     \subsection{Maskierung nicht benötigter Bildausschnitte}
-    Um Fehldetektionen, beispielsweise durch die Spiegelung der Fahrbahnmarkierung an der Karosserie des eigenen Fahrzeugs, weiter zu verringern, könnte während der Kalibrierung ein Maske generiert werden, die bestimmte Bildausschnitte, wie z.B. das eigene Fahrzeug markiert.
+    Um Fehldetektionen, beispielsweise durch die Spiegelung der Fahrbahnmarkierung an der Karosserie des eigenen Fahrzeugs, weiter zu verringern, könnte während der Kalibrierung eine Maske generiert werden, die bestimmte Bildausschnitte, wie z.B. das eigene Fahrzeug markiert.
     In der Nachverarbeitung könnten so erkannte Fahrbahnmarkierungen in diesem Bildbereich von der Nachverarbeitung ausgeschlossen werden, oder bereits zuvor maskiert werden, um eine Detektion zu vermeiden.
     Der Nachteil dieser Erweiterung läge in zusätzlichem Aufwand im Kalibrierungsschritt, wobei dieser durch die Verwendung freier Segmentierungsmodelle wie Segment-Anything gering gehalten werden könnte.
     %Todo Skizze vorgehen
@@ -46,11 +46,11 @@ Nicht nur die Segmentierung selbst, sondern auch die Nachverarbeitung haben jedo
     Dies wäre abgesehen davon Daten labeln zu müssen mit geringem Aufwand erreichbar.
     %Todo hier Ergebnisse
 
-    Noch besser wäre ein Umbau des Modells, sodass nicht nur eine Klasse für Fahrbahnmarkierungen existiert, sondern Information wie der Linientyp (getrichelt/durchgezogen) und die Linienfarbe (gelb/wei{\ss}) direkt als entsprechende Klassen implementiert werden.
+    Noch besser wäre ein Umbau des Modells, sodass nicht nur eine Klasse für Fahrbahnmarkierungen existiert, sondern Information wie der Linientyp (gestrichelt/durchgezogen) und die Linienfarbe (gelb/wei{\ss}) direkt als entsprechende Klassen implementiert werden.
     % Ein erster Ansatz hierfür wurde bereits geschaffen und zeigt folgende Ergebnisse auf \ref{} %todo anhang
-    Nachteil dieser Methode ist, das der Trainingsdatensatz Berkeley DeepDrive kein Konvertierungsskript von Labels in Form von json-Dateien zu Masken zu konvertieren.
+    Der Nachteil dieser Methode ist, das der Trainingsdatensatz Berkeley DeepDrive kein Konvertierungsskript bereitstellt, um von Labels, in Form von json-Dateien, zu Masken konvertieren zu können.
     Entsprechende Masken stehen zwar zu Verfügung, aber eine Rückführung welche Kante zu welchem Segment gehört ist nur schwierig möglich. Damit fehlt die Zuordnung zu entsprechenden Klassen wie z.B. gestrichelte wei{\ss}e Linie.
-    Ein Modell das anhand der verfügbaren eigenen Labels trainiert wurde, erkannte zuverlässig die einzelnen Klassen. Das Umfang des Trainingsdatensatzes müsste aber deutlich erhöht werden, um gute Generalisierung zu erzielen. % Todo erste Ergebnisse
+    Ein Modell das anhand der verfügbaren eigenen Labels trainiert wurde, erkannte zuverlässig die einzelnen Klassen. Der Umfang des Trainingsdatensatzes müsste aber deutlich erhöht werden, um gute Generalisierung zu erzielen. % Todo erste Ergebnisse
 
     %Todo: autoencoder: Lernen der Featurem anstatt diese zu designen
     
