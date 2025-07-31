@@ -117,3 +117,13 @@
     Im Beispiel-Bild \ref{fig:M2_T16_F28_result} wurde die dichtere Linie jedoch gerade noch gut genug detektiert, sodass ein Abstandswert zur korrekten Linie berechnet wurde.
 
     Alle beobachteten Phänomene spiegelten sich entsprechend der Skalierung auch im finalen Konfidenzwert wider, der in den Auswertungen in braun (links) und pink (rechts) dargestellt ist.
+
+    Zusätzlich lässt sich in den Abilldungen \ref{fig:M2_conf_error_right_target} und \ref{fig:M2_conf_error_left_target} der Fehler in Metern nach Seite, jeweils abzüglich des Mittelwerts mit Farbkodierung der dazugehörigen Konfidenzwerte ablesen (rot hohe Konfidenz, blau niedrige Konfidenz siehe Legende).
+    Der Mittelwert wurde hier abgezogen, da dieser sich aus der Abweichung zur Innenkante der Fahrbahnmarkierung ergibt. Der Abzug dieses Offsets macht somit den Vergleich der Detektion zur Ground-Truth realistischer.
+
+    Zu erkennen ist eine klare Tendenz eines zunehmenden Fehlers mit abnehmender Konfidenz. Die Tabellen \ref{tab:errors_conf_left} und \ref{tab:errors_conf_right} zeigen die Abweichungen in Metern für die $\sigma$-Umgebungen eins bis 3.
+    So gilt beispielsweise für die linke Seite, dass der Fehler bei einer Konfidenz zwischen 0,9 und 1 in der 1-$\sigma$-Umgebung bei 0,036m liegt. Das bedeutet, dass 68\% der mit mindestens 0,9 bewerteten Abstände einen Fehler von maximal 0,036m aufweisen. Wird dieser maximale Fehler auf 0,15m erweitert, sind bereits 99,7\% aller Abstände mit mindestens 0,9 bewerteten Abständen enthalten.
+
+    Auffällig ist, dass die Streunung der Fehler auf der rechten Seite grö{\ss}er ist als auf der linken Seite. So ist der maximale Fehler für 99,7\% der mit mindestens 0,9 bewerteten Abstände auf der rechten Seite bei 0,25m. Auch in allen weiteren Bereichen liegt der Fehler auf der rechten Seite höher, als auf der linken Seite. Trotzdem sind auch hier zwei klare Tendenzen erkennbar: Zum einen steigt der Fehler mit abnehmender Konfidenz und zum anderen steigt der Fehler mit zunehmender $\sigma$-Umgebung, was grundsätzlich für eine korrekte Konfidenz-Zuordnung spricht.
+    
+    Unter der Berücksichtigung dieser Verteilungen für beide Seiten, sollten Abstandswerte mit einer Konfidenz von 0,7 oder weniger verworfen werden. Für genauere Ergebnisse ist diese Grenze entsprechend anzuheben.

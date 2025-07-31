@@ -17,6 +17,11 @@ Nicht nur die Segmentierung selbst, sondern auch die Nachverarbeitung haben jedo
 \label{chapter_verbesserungen}
     Die Erkennung der gesuchten Zielgrö{\ss}e (Anhang \ref{AppendixE}), sowie die Zuweisung eines geeigneten Ma{\ss}es für die Glaubwürdigkeit des Abstandswertes, haben in den untersuchten Messungen für die relevanten Situationen (Autobahnfahrt ohne Baustelle) bereits zufriedenstellend funktioniert.
     Dennoch wurden die im folgenden beschriebenen Verbesserungspotenziale für die Weiterentwicklung identifiziert.
+
+    \subsection{Ausnutzung des Wertebereichs der Konfidenzwerte}
+    Die theoretischen Grenzwerte des angestrebten Bereichs zwischen 0 und 1, können aufgrund der Beschaffenheit der Einzelgrö{\ss}en und deren Verrechnung nie erreicht werden. Trotzdem sollte der Bereich gro{\ss}zügiger ausgenutzt werden, um klarere Grenzen für die Entscheidungsfindung zu schaffen. Aktuell liegen die meisten Konfidenzwerte im Bereich zwischen 0,6 und 0,9.
+    Die Berechnung der Einzelbestandteile sollte so angepasst werden, dass insgesamt ein möglichst gro{\ss}er Teil des verfügbaren Bereichs genutzt wird.
+
     \subsection{Historienanalye}
     Die für den Konfidenzwert einbezogene Grö{\ss}e $history\_confidence$ soll unrealistische Sprünge durch einen niedrigen Konfidenzwert abbilden.
     In der letzten Umsetzung wurden dazu die Detektionen der letzten Sekunde relativ zum aktuellen Bild betrachtet.
