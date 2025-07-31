@@ -6,7 +6,7 @@ Diese soll es ermöglichen Fahrerassistenzsysteme ohne den Zugriff auf interne B
 Für die die Beurteilung von Systemen wie der Spurmittenführung oder Spurverlassensverhinderung wird dazu die Zielgrö{\ss}e des Abstands zwischen der Au{\ss}enkante des Vorderreifens und der Innenkante der Fahrbahnmarkierung benötigt.
 Zusätzlich soll diese Zielgrö{\ss}e mit einem Konfidenzwert zur Beurteilung der Unsicherheit des ausgegebenen Abstandswertes versehen werden.
 
-Um den Abstand zur Fahrbahnmarkierungen berechnen zu können, segmentiert das TwinLiteNet+ das aufgenommene Kamerabild in die Klassen \textit{Lane}, \textit{Driveable Area} und \textit{Hintergrund}. 
+Um den Abstand zur Fahrbahnmarkierung berechnen zu können, segmentiert das TwinLiteNet+ das aufgenommene Kamerabild in die Klassen \textit{Lane}, \textit{Driveable Area} und \textit{Hintergrund}. 
 In der Nachverarbeitung werden die als \textit{Lane} klassifizierten Segmente mittels Polynomen approximiert, sodass die Zwischengrö{\ss}e Abstand in Pixeln zwischen Rad und Fahrbahnmarkierung berechnet werden kann.
 Die Position des Reifens, sowie die Kameraparameter müssen dazu vor Abfahrt kalibriert werden. Anhand von dabei entstehenden Homographiematrizen kann dann der absolute Abstand in Metern bestimmt werden.
 
