@@ -7,7 +7,7 @@ Die in Kapitel \ref{chapter_conf_eval} beschriebene Auswertung zeigt, dass niedr
  
 Besonders die Einbeziehung der in Kapitel \ref{history_confidence} beschriebenen Historienbetrachtung hat dazu beigetragen Fehldetektionen durch gro{\ss}e Sprünge zu erkennen und damit niedrig bewerten. Lediglich in Fällen, in denen die Dichte der Ausrei{\ss}er durch Fehldetektionen zu hoch wird, kann die Historienbetrachtung keinen sinnvollen Beitrag mehr für die Konfidenzbetrachtung leisten, da eine geringe Rate von Fehldetektionen vorausgesetzt wird.
 
-Bei der Berechnung des ScoreCAM Mittelwerts eines Segments hat sich gezeigt, dass äu{\ss}ere Linien in der Regel stabiler erkannt werden, als die für die Zielgrö{\ss}e relevante dichteste Linie. Dennoch ist die Einbeziehung dieses Scores in die Konfidenzbetrachtung sinnvoll, um einen Eindruck über die Güte der Segmentierung zu bekommen, da äu{\ss}ere Fahrbahnmarkierungen durch die anderen Bestandteile des Konfidenzwerts entsprechend bewertet wurden.
+Bei der Berechnung des ScoreCAM Mittelwerts eines Segments hat sich gezeigt, dass äu{\ss}ere Linien in der Regel stabiler erkannt werden als die für die Zielgrö{\ss}e relevante dichteste Linie. Dennoch ist die Einbeziehung dieses Scores in die Konfidenzbetrachtung sinnvoll, um einen Eindruck über die Güte der Segmentierung zu bekommen, da äu{\ss}ere Fahrbahnmarkierungen durch die anderen Bestandteile des Konfidenzwerts entsprechend bewertet wurden.
 
 Für die Betrachtung des Konfidenzwerts im relevanten Bereich (Autobahnfahrt ohne Baustellen) zeigt sich insgesamt eine hohe Korrespondenz zwischen niedrigen Konfidenzwerten und hohen absoluten Fehlern, weshalb ein geeignetes Ma{\ss} für die Glaubwürdigkeit des Abstandswertes gefunden wurde.
 
@@ -16,7 +16,7 @@ Nicht nur die Segmentierung selbst, sondern auch die Nachverarbeitung haben jedo
 \section{Verbesserungspotenziale}
 \label{chapter_verbesserungen}
     Die Erkennung der gesuchten Zielgrö{\ss}e (Anhang \ref{AppendixE}), sowie die Zuweisung eines geeigneten Ma{\ss}es für die Glaubwürdigkeit des Abstandswertes, haben in den untersuchten Messungen für die relevanten Situationen (Autobahnfahrt ohne Baustelle) bereits zufriedenstellend funktioniert.
-    Dennoch wurden die im folgenden beschriebenen Verbesserungspotenziale für die Weiterentwicklung identifiziert.
+    Dennoch wurden die im Folgenden beschriebenen Verbesserungspotenziale für die Weiterentwicklung identifiziert.
 
     \subsection{Ausnutzung des Wertebereichs der Konfidenzwerte}
     Die theoretischen Grenzwerte des angestrebten Bereichs zwischen 0 und 1, können aufgrund der Beschaffenheit der Einzelgrö{\ss}en und deren Verrechnung nie erreicht werden. Trotzdem sollte der Bereich gro{\ss}zügiger ausgenutzt werden, um klarere Grenzen für die Entscheidungsfindung zu schaffen. Aktuell liegen die meisten Konfidenzwerte im Bereich zwischen 0,6 und 0,9.
@@ -25,7 +25,7 @@ Nicht nur die Segmentierung selbst, sondern auch die Nachverarbeitung haben jedo
     \subsection{Historienanalye}
     Die für den Konfidenzwert einbezogene Grö{\ss}e $history\_confidence$ soll unrealistische Sprünge durch einen niedrigen Konfidenzwert abbilden.
     In der letzten Umsetzung wurden dazu die Detektionen der letzten Sekunde relativ zum aktuellen Bild betrachtet.
-    Um Ausrei{\ss}er noch zuverlässiger zu erkennen, könnten zusätzlich die zukünftigen Detektion relativ zum aktuellen Bild einbezogen werden.
+    Um Ausrei{\ss}er noch zuverlässiger zu erkennen, könnten zusätzlich die zukünftigen Detektionen relativ zum aktuellen Bild einbezogen werden.
     Diese Umsetzung wäre jedoch ausschlie{\ss}lich für eine Nachverarbeitung geeignet. Für eine Echtzeit-Ausgabe wäre die Einbeziehung eines Kallmann-Filters denkbar.
 
     \subsection{Maskierung nicht benötigter Bildausschnitte}
@@ -46,16 +46,16 @@ Nicht nur die Segmentierung selbst, sondern auch die Nachverarbeitung haben jedo
 
     \subsection{Modell-Anpassungen}
     Die im Zeitrahmen der Abschlussarbeit erstellten Auswertungen basieren auf der Verwendung des vortrainierten Modells TwinLiteNetPlus anhand des Berkeley Deep Drive Datensatzes.
-    Wie in Kapitel \ref{konzept} beschrieben werden durch die abweichende Kameraperspektive zum Trainingsdatensatz häufig die benötigten dichtesten Linien nicht so gut erkannt wie Linien, die weiter entfernt sind.
+    Wie in Kapitel \ref{konzept} beschrieben, werden durch die abweichende Kameraperspektive zum Trainingsdatensatz häufig die benötigten dichtesten Linien nicht so gut erkannt wie Linien, die weiter entfernt sind.
     Um dieses Phänomen zu reduzieren, sollte das Modell mit eigenen Trainingsdaten nochmals verfeinert werden.
     Dies wäre abgesehen davon Daten labeln zu müssen mit geringem Aufwand erreichbar.
     %Todo hier Ergebnisse
 
     Noch besser wäre ein Umbau des Modells, sodass nicht nur eine Klasse für Fahrbahnmarkierungen existiert, sondern Information wie der Linientyp (gestrichelt/durchgezogen) und die Linienfarbe (gelb/wei{\ss}) direkt als entsprechende Klassen implementiert werden.
     % Ein erster Ansatz hierfür wurde bereits geschaffen und zeigt folgende Ergebnisse auf \ref{} %todo anhang
-    Der Nachteil dieser Methode ist, das der Trainingsdatensatz Berkeley DeepDrive kein Konvertierungsskript bereitstellt, um von Labels, in Form von json-Dateien, zu Masken konvertieren zu können.
+    Der Nachteil dieser Methode ist, dass der Trainingsdatensatz Berkeley DeepDrive kein Konvertierungsskript bereitstellt, um von Labels, in Form von json-Dateien, zu Masken konvertieren zu können.
     Entsprechende Masken stehen zwar zu Verfügung, aber eine Rückführung welche Kante zu welchem Segment gehört ist nur schwierig möglich. Damit fehlt die Zuordnung zu entsprechenden Klassen wie z.B. gestrichelte wei{\ss}e Linie.
-    Ein Modell das anhand der verfügbaren eigenen Labels trainiert wurde, erkannte zuverlässig die einzelnen Klassen. Der Umfang des Trainingsdatensatzes müsste aber deutlich erhöht werden, um gute Generalisierung zu erzielen. % Todo erste Ergebnisse
+    Ein Modell, das anhand der verfügbaren eigenen Labels trainiert wurde, erkannte zuverlässig die einzelnen Klassen. Der Umfang des Trainingsdatensatzes müsste aber deutlich erhöht werden, um gute Generalisierung zu erzielen. % Todo erste Ergebnisse
 
     %Todo: autoencoder: Lernen der Featurem anstatt diese zu designen
     

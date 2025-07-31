@@ -1,7 +1,7 @@
 \chapter{Zusammenfassung} 
 
 Die vorliegende Arbeit beschäftigt sich mit der Erweiterung einer bestehenden externen Messtechnik, um eine Kamerabasierte Spurerkennung.
-Diese soll es ermöglichen Fahrerassistenzsysteme ohne den Zugriff auf interne Bussignale zu bewerten. 
+Diese soll es ermöglichen Fahrerassistenzsysteme ohne den Zugriff auf interne Bus-Signale zu bewerten. 
 
 Für die die Beurteilung von Systemen wie der Spurmittenführung oder Spurverlassensverhinderung wird dazu die Zielgrö{\ss}e des Abstands zwischen der Au{\ss}enkante des Vorderreifens und der Innenkante der Fahrbahnmarkierung benötigt.
 Zusätzlich soll diese Zielgrö{\ss}e mit einem Konfidenzwert zur Beurteilung der Unsicherheit des ausgegebenen Abstandswertes versehen werden.
@@ -12,13 +12,13 @@ Die Position des Reifens, sowie die Kameraparameter müssen dazu vor Abfahrt kal
 
 Der zugeordnete Konfidenzwert wird dabei aus drei Bestandteilen verrechnet, die verschiedene Faktoren der Unsicherheit widerspiegeln. Dazu berücksichtigt der erste Wert die Unsicherheit der Segmentierung, indem der Mittelwert der zugrunde liegenden ScoreCAM Heatmap eines Segments errechnet wird.
 
-Der zweite Wert berücksichtigt die durch die Polynomapproximation entstehende Unsicherheit des berechneten Abstandswertes auf Radhöhne, indem der durchschnittliche Abstand des erkannten Segments zum sauber kalibrierten Bereich nahe das Rades berechnet wird.
+Der zweite Wert berücksichtigt die durch die Polynomapproximation entstehende Unsicherheit des berechneten Abstandswertes auf Radhöhe, indem der durchschnittliche Abstand des erkannten Segments zum sauber kalibrierten Bereich nahe das Rades berechnet wird.
 
 Der letzte Bestandteil des Konfidenzwerts wird anhand einer Historienbetrachtung bestimmt, sodass unplausible Sprünge z.B. zwischen verschiedenen Fahrbahnmarkierungen entsprechend niedrig bewertet werden.
 
 Solche Sprünge in der Abstandsgrö{\ss}e werden vor allem in Baustellensituationen beobachtet, da der Linientyp (gestrichelt/durchgezogen und wei{\ss}/gelb) noch nicht berücksichtigt wird und lediglich der Abstand zur dichtesten Markierung ermittelt wird.
 
-Im Hauptszenario Autobahnfahrt ohne Sondersituationen wie Baustellen, funktioniert die Abstandsberechnung mit Ausnahme eines kleinen Offsets von etwa 0,05m zur Ground-Truth bereits gut. Dieser Offset kommt dadurch Zustande, dass die dichteste Fahrbahnmarkierung häufig nicht stabil genug erkannt wird, um den Abstand exakt zur Innenkante der Markierung berechnen zu können. Stattdessen reicht der Punkt zum dem der Abstand berechnet wird etwas zur Mitte der Markierung, sodass der berechnete Abstand entsprechend etwas zu hoch ist.
+Im Hauptszenario Autobahnfahrt ohne Sondersituationen wie Baustellen, funktioniert die Abstandsberechnung mit Ausnahme eines kleinen Offsets von etwa 0,05m zur Ground-Truth bereits gut. Dieser Offset kommt dadurch zustande, dass die dichteste Fahrbahnmarkierung häufig nicht stabil genug erkannt wird, um den Abstand exakt zur Innenkante der Markierung berechnen zu können. Stattdessen reicht der Punkt zum dem der Abstand berechnet wird etwas zur Mitte der Markierung, sodass der berechnete Abstand entsprechend etwas zu hoch ist.
 
 Verbesserungspotential besteht somit besonders in der verbesserten Segmentierung der dichtesten Spurmarkierung, was durch ein Fine-Tuning des Modells mit eigenen Trainingsdaten aus der vom zugrunde liegenden Datensatz BerkeleyDeepDrive abweichenden Kameraperspektive erreicht werden kann.
 

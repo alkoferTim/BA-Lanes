@@ -35,7 +35,7 @@
         Aufgrund dieser Änderungen, wäre eine Auswertung nur mit erhöhtem Aufwand möglich gewesen, weshalb darauf verzichtet wurde.
         Teile der aufgenommenen Daten wurden jedoch trotzdem gelabelt, um diese später für das Fine-Tuning des Modells verwenden zu können.
 
-        In einer zweiten Messung funktionierte die Detektion und Abstandsberechnung bereits gut. Wie in den Abbildungen \ref{fig:Evaluation16} und \ref{fig:Evaluation_M2} zu sehen ist.
+        In einer zweiten Messung funktionierten die Detektion und Abstandsberechnung bereits gut. Wie in den Abbildungen \ref{fig:Evaluation16} und \ref{fig:Evaluation_M2} zu sehen ist.
         Die Verteilung des absoluten Fehlers über alle Messungen hat auf beiden Seiten einen hohen und schmalen Peak um die 0 m, was grundsätzlich für eine korrekte Abstandsbestimmung spricht, abgesehen von einem kleineren Nebenpeaks bei etwa 1,2m und 2,5m auf der rechten Seite, die durch Fehldetektionen zu erklären sind.
         
         % Ein weiteres technisches Problem war die falsche Angabe der Kamera-Metadaten (z.B. Bildrate) in wenigen Videos, was die Synchonisation zu den Messdaten hinterher erschwerte oder unmöglich machte.
@@ -90,7 +90,7 @@
             \label{tab:characteristics_error}
         \end{table}
 
-        Zu Erkennen ist nun ebenfalls eine leichte Abweichung vom absoluten Fehler 0m auf beiden Seiten nach au{\ss}en. Diese ist dadurch zu erklären, dass meist nicht exakt die Innenkante, sondern eher die Mitte der Fahrbahnmarkierungen zur Abstandsberechnung verwendet wurde, wie beispielsweise in Abbildung \ref{fig:Evaluation16} zu erkennen ist.
+        Zu erkennen ist nun ebenfalls eine leichte Abweichung vom absoluten Fehler 0m auf beiden Seiten nach au{\ss}en. Diese ist dadurch zu erklären, dass meist nicht exakt die Innenkante, sondern eher die Mitte der Fahrbahnmarkierungen zur Abstandsberechnung verwendet wurde, wie beispielsweise in Abbildung \ref{fig:Evaluation16} zu erkennen ist.
         Unter Voraussetzung einer Breite von 0,12 bis 0,15m der  Fahrbahnmarkierungen, erscheinen die Abweichungen der Grö{\ss}enordnung von 0,06m bzw. 0,03m über dem Ground-Truth-Abstand deshalb plausibel.
 
 
@@ -98,7 +98,7 @@
 \label{chapter_conf_eval}
     In Anhang \ref{AppendixF} sind die ermittelten Zwischengrö{\ss}en, sowie der zusammengesetzte Konfidenzwert für die Gesamtmessung 2, nach Seiten aufgeteilt, dargestellt.
     Dabei fällt auf, dass die Historienbetrachtung $history\_confidence$ (in hell blau dargestellt) im Schnitt am höchsten knapp unter 1 liegt. Trotzdem werden die Ausrei{\ss}er weitestgehend stabil erkannt was durch einen niedrigen Wert nahe 0 zu erkennen ist.
-    Lediglich, wenn die Dichte der Ausrei{\ss}er wie in Einzelmessung 12 für die rechte Seite (Abbildung \ref{fig:M2_T12_conf_right}) zu hoch ist, können nicht mehr alle Ausrei{\ss}er-werte erkannt werden.
+    Lediglich, wenn die Dichte der Ausrei{\ss}er wie in Einzelmessung 12 für die rechte Seite (Abbildung \ref{fig:M2_T12_conf_right}) zu hoch ist, können nicht mehr alle Ausrei{\ss}er-Werte erkannt werden.
 
     \begin{figure}[h]
     \centering
@@ -118,12 +118,12 @@
 
     Alle beobachteten Phänomene spiegelten sich entsprechend der Skalierung auch im finalen Konfidenzwert wider, der in den Auswertungen in braun (links) und pink (rechts) dargestellt ist.
 
-    Zusätzlich lässt sich in den Abilldungen \ref{fig:M2_conf_error_right_target} und \ref{fig:M2_conf_error_left_target} der Fehler in Metern nach Seite, jeweils abzüglich des Mittelwerts mit Farbkodierung der dazugehörigen Konfidenzwerte ablesen (rot hohe Konfidenz, blau niedrige Konfidenz siehe Legende).
+    Zusätzlich lässt sich in den Abbildungen \ref{fig:M2_conf_error_right_target} und \ref{fig:M2_conf_error_left_target} der Fehler in Metern nach Seite, jeweils abzüglich des Mittelwerts mit Farbkodierung der dazugehörigen Konfidenzwerte ablesen (rot hohe Konfidenz, blau niedrige Konfidenz siehe Legende).
     Der Mittelwert wurde hier abgezogen, da dieser sich aus der Abweichung zur Innenkante der Fahrbahnmarkierung ergibt. Der Abzug dieses Offsets macht somit den Vergleich der Detektion zur Ground-Truth realistischer.
 
     Zu erkennen ist eine klare Tendenz eines zunehmenden Fehlers mit abnehmender Konfidenz. Die Tabellen \ref{tab:errors_conf_left} und \ref{tab:errors_conf_right} zeigen die Abweichungen in Metern für die $\sigma$-Umgebungen eins bis 3.
     So gilt beispielsweise für die linke Seite, dass der Fehler bei einer Konfidenz zwischen 0,9 und 1 in der 1-$\sigma$-Umgebung bei 0,036m liegt. Das bedeutet, dass 68\% der mit mindestens 0,9 bewerteten Abstände einen Fehler von maximal 0,036m aufweisen. Wird dieser maximale Fehler auf 0,15m erweitert, sind bereits 99,7\% aller Abstände mit mindestens 0,9 bewerteten Abständen enthalten.
 
-    Auffällig ist, dass die Streunung der Fehler auf der rechten Seite grö{\ss}er ist als auf der linken Seite. So ist der maximale Fehler für 99,7\% der mit mindestens 0,9 bewerteten Abstände auf der rechten Seite bei 0,25m. Auch in allen weiteren Bereichen liegt der Fehler auf der rechten Seite höher, als auf der linken Seite. Trotzdem sind auch hier zwei klare Tendenzen erkennbar: Zum einen steigt der Fehler mit abnehmender Konfidenz und zum anderen steigt der Fehler mit zunehmender $\sigma$-Umgebung, was grundsätzlich für eine korrekte Konfidenz-Zuordnung spricht.
-    
+    Auffällig ist, dass die Streuung der Fehler auf der rechten Seite grö{\ss}er ist als auf der linken Seite. So ist der maximale Fehler für 99,7\% der mit mindestens 0,9 bewerteten Abstände auf der rechten Seite bei 0,25m. Auch in allen weiteren Bereichen liegt der Fehler auf der rechten Seite höher als auf der linken Seite. Trotzdem sind auch hier zwei klare Tendenzen erkennbar: Zum einen steigt der Fehler mit abnehmender Konfidenz und zum anderen steigt der Fehler mit zunehmender $\sigma$-Umgebung, was grundsätzlich für eine korrekte Konfidenz-Zuordnung spricht.
+
     Unter der Berücksichtigung dieser Verteilungen für beide Seiten, sollten Abstandswerte mit einer Konfidenz von 0,7 oder weniger verworfen werden. Für genauere Ergebnisse ist diese Grenze entsprechend anzuheben.

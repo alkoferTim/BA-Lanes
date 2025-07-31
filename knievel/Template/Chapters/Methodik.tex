@@ -14,7 +14,7 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
     %Warum eignet sich ein Schachbrettmuster gut
     % Welche methoden werden verwendet findChessboardCorners
     Die Verwendung eines planaren Musters (wie dem Schachbrett) wurde ma{\ss}geblich durch Zhengyou Zhang etabliert. 
-    In seiner einflussreichen Arbeit \glqq A Flexible New Technique for Camera Calibration\grqq \cite{Zhang2000} beschreibt Zhang ein Verfahren, das auf der Beobachtung eines zweidimensionalen Kalibriermusters aus verschiedenen Perspektiven basiert. Die Methode benötigt keine präzise bekannte 3D-Geometrie oder mechanisch geführte Bewegungen, sondern nutzt die Homographie zwischen dem Muster und dem Bild zur Schätzung der Kameraparameter. Dies machte die Kalibrierung erstmals praktikabel für den breiten Einsatz, etwa in der Robotik, Augmented Reality oder industriellen Bildverarbeitung.
+    In seiner einflussreichen Arbeit \glqq A Flexible New Technique for Camera Calibration\grqq\ \cite{Zhang2000} beschreibt Zhang ein Verfahren, das auf der Beobachtung eines zweidimensionalen Kalibriermusters aus verschiedenen Perspektiven basiert. Die Methode benötigt keine präzise bekannte 3D-Geometrie oder mechanisch geführte Bewegungen, sondern nutzt die Homographie zwischen dem Muster und dem Bild zur Schätzung der Kameraparameter. Dies machte die Kalibrierung erstmals praktikabel für den breiten Einsatz, etwa in der Robotik, Augmented Reality oder industriellen Bildverarbeitung.
 
     Anhand der OpenCV Methode \textit{findChessboardCorners} werden die inneren Ecken des spezifizierten Schachbrettmusters im Bild, wie in Abbildung \ref{fig:tire_position} gezeigt, erkannt.
     Diese Ecken dienen als 2D-Bildpunkte, denen bekannte 3D-Weltpunkte auf der Kalibrierfläche zugeordnet werden können - eine Voraussetzung für die Berechnung der Kameraparameter.
@@ -29,7 +29,7 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
         0 & 0 & 1
         \end{bmatrix}
         \]
-        Dabei stellen $f_x$ und $f_y$ die Brennweite in Pixeln entlang der x beziehungsweise y Achse und $c_x$ und $c_y$ die Position des optischen Zentrums in Pixeln dar.
+        Dabei stellen $f_x$ und $f_y$ die Brennweite in Pixeln entlang der x- beziehungsweise y-Achse und $c_x$ und $c_y$ die Position des optischen Zentrums in Pixeln dar.
         Die tatsächliche physische Brennweite $f$ kann anhand der physischen Pixelgrö{\ss}e $s$ und einem Skalierungsfaktor $m$ (meist 1, wenn die Einheiten konsistent sind) berechnet werden:
         \[
             f = \frac{f_x * s_x}{m}
@@ -123,7 +123,7 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
     Pixel Accuracy = \frac{TP+TN}{TP+FP+TN+FN}
     \]
     
-    Da Fahrbahnmarkierungen klassischer weise einen geringen Anteil des Gesamtbildes einnehmen, führt diese Metrik zu einer übermä{\ss}ig hohen Genauigkeit durch sehr viele korrekt als Hintergrund erkannte Pixel. Um dieses Ungleichgewicht der Klassen \textit{background} und \textit{lane} auszugleichen, wird die mit der Veröffentlichung des Yolop Modells vorgestellte Line Accuracy verwendet \cite{wang2023you}:
+    Da Fahrbahnmarkierungen klassischerweise einen geringen Anteil des Gesamtbildes einnehmen, führt diese Metrik zu einer übermä{\ss}ig hohen Genauigkeit durch sehr viele korrekt als Hintergrund erkannte Pixel. Um dieses Ungleichgewicht der Klassen \textit{background} und \textit{lane} auszugleichen, wird die mit der Veröffentlichung des Yolop Modells vorgestellte Line Accuracy verwendet \cite{wang2023you}:
 
     \[
     Line Accuracy = \frac{Sensitivity + Specificity}{2}
@@ -147,11 +147,11 @@ Zusätzlich wird nach der vollständigen Kamerakalibrierung noch die Position de
 
 \section{Nachverarbeitung} % Segmente -> Polynome -> Filter -> Abstand berechnen
 \label{chapter_postprocessing}
-Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu berechnen, wurde die im folgenden anhand des Beispielbildes in Anhang \ref{AppendixG} beschriebene Nachverarbeitung implementiert. 
+Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu berechnen, wurde die im Folgenden anhand des Beispielbildes in Anhang \ref{AppendixG} beschriebene Nachverarbeitung implementiert. 
 
 
 \subsection{Zusammenhängende Segmente}
-    Zunächst sollte aus der resultierenden Segmentierungsmaske eine Liste von zusammenhängenden Segmenten, die als Fahrbahnmarkierung klassifiziert wurden, mithilfe der Funktion \textit{label()} der Bibliothek scipy ermittelt werden. Au{\ss}erdem wurde ein threshold implementiert, der nur Segmente mit der angegeben Mindestanzahl an Pixeln in die Liste der Segmente aufnimmt, da zu kleine Segmente höchstgradig ungenau waren.
+    Zunächst sollte aus der resultierenden Segmentierungsmaske eine Liste von zusammenhängenden Segmenten, die als Fahrbahnmarkierung klassifiziert wurden, mithilfe der Funktion \textit{label()} der Bibliothek scipy ermittelt werden. Au{\ss}erdem wurde ein threshold implementiert, der nur Segmente mit der angegeben Mindestanzahl an Pixeln in die Liste der Segmente aufnimmt, da zu kleine Segmente hochgradig ungenau waren.
     %Todo: Code in den Anhang? Segment-Berwertung via heatmap erläutern
     \lstinputlisting[language=Python, caption=Python example]{code/extract_lane_segments.py} % Todo: Knievel Comment Quellcode geeignet?
     Die zusammenhängenden Segmente wurden in Abbildung \ref{fig:M2_T15_F76_left_segments} jeweils in gleicher Farbe markiert.
@@ -166,7 +166,7 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
 
 
 \subsection{Abstandsberechnung}
-    Um die gesuchte Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu ermitteln, wurde für jedes Polynom der kürzeste Abstand zum kalibrierten Radkantenpunkt, der während des Kalibrier-Vorgangs (siehe Kapitel \ref{chapter_calibration}) manuell zu setzen war, berechnet. Dazu wurden Kandidatenpunkte und der Radkantenpunkt mit Hilfe der kalibrierten Homographie-Matrix in Weltkoordinaten transformiert, um daraus den echten Abstand in Metern zu berechnen. Zunächst wurde vereinfachend lediglich der Abstand zur dichtesten Fahrbahnmarkierungen als Messgrö{\ss}e ausgegeben.
+    Um die gesuchte Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu ermitteln, wurde für jedes Polynom der kürzeste Abstand zum kalibrierten Radkantenpunkt, der während des Kalibrier-Vorgangs (siehe Kapitel \ref{chapter_calibration}) manuell zu setzen war, berechnet. Dazu wurden Kandidatenpunkte und der Radkantenpunkt mit Hilfe der kalibrierten Homographie-Matrix in Weltkoordinaten transformiert, um daraus den echten Abstand in Metern zu berechnen. Zunächst wurde vereinfachend lediglich der Abstand zur dichtesten Fahrbahnmarkierung als Messgrö{\ss}e ausgegeben.
 
 %Filterung in Kapitel Segmente und Polynome oder eigenes kapitel?
 \section{Auswahl und Beschreibung der Konfidenzschätzung}
@@ -176,7 +176,7 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
 
     Auf der nächsten Ebene wird dann zusätzlich die anschlie{\ss}ende in Kapitel \ref{chapter_postprocessing} beschriebene Nachverarbeitung der Segmentierung bewertet.
     
-    Dem am Ende resultierenden Abstandswert sollte dann durch die Verrechnung der einzelnen im folgenden beschriebenen Bestandteile eine Konfidenzschätzung im Bereich 0 (schlecht) bis 1 (gut) zugeordnet werden.
+    Dem am Ende resultierenden Abstandswert sollte dann durch die Verrechnung der einzelnen im Folgenden beschriebenen Bestandteile eine Konfidenzschätzung im Bereich 0 (schlecht) bis 1 (gut) zugeordnet werden.
     
     \subsection{Detektionsbewertung mittels ScoreCAM-Heatmap}
         Das in Kapitel \ref{scoreCam_beschreibung} beschriebene Verfahren Score-CAM eignet sich besonders gut für Bild-Segmentierung, weil es im Vergleich zu anderen CAM-Methoden robustere, schärfere und oft präzisere Aktivierungskarten liefert. Der Hauptvorteil liegt darin, dass Score-CAM keine Gradienten benötigt, sondern die tatsächlichen Modellantworten auf maskierte Bildbereiche nutzt, was zu stabileren und besser lokalisierten Segmentierungen führt.
@@ -190,7 +190,7 @@ Um aus dem Segmentierungsergebnis die Zielgrö{\ss}e (Anhang \ref{AppendixE}) zu
     
     \subsection{Abstandsbewertung}
         Der Berechnung der Zielgrö{\ss}e liegt die in Kapitel \ref{chapter_calibration} beschriebene Kalibrierung mittels Schachbrett-Muster zu Grunde. 
-        Um die Konfidenz des berechneten Abstandswerts weiter zu präzisieren, wird die Lage eines Segments zu dem Bereich in dem das Schachbrettmuster für die Kalibrierung lag einbezogen. 
+        Um die Konfidenz des berechneten Abstandswerts weiter zu präzisieren, wird die Lage eines Segments zu dem Bereich, in dem das Schachbrettmuster für die Kalibrierung lag, einbezogen. 
         Dadurch sollten die durch die Polynom-Approximation entstehenden Fehler berücksichtigt werden.
         
         Erkannte Segmente, die besonders nah oder im Bereich des Schachbrettmusters lagen, lie{\ss}en einen geringen Fehler des Polynoms im betrachteten Bereich vermuten und sollten daher eine hohe Konfidenz erhalten.
