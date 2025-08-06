@@ -9,7 +9,6 @@ def fit_polynomial_to_segments(segments, degree=3):
     Returns:
     - polynomials: A list of tuples, where each tuple contains two sets of polynomial coefficients.
     """
-    # Todo: Idea - fit polynom not to whole segment, but to left and right edge of segment
     polynomials = []
     for score, segment in segments:
         # Extract x and y coordinates
